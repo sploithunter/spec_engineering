@@ -1,0 +1,17 @@
+{
+  "listing": {
+    "title": "Spec Engineering (ATDD)",
+    "tagline": "Behavioral spec authoring, state machine analysis, and AI-powered test generation",
+    "category": "testing",
+    "tags": ["atdd", "bdd", "testing", "specifications", "state-machine"],
+    "icon": "clipboard-check"
+  },
+  "requirements": {
+    "python": ">=3.11",
+    "dependencies": ["fastmcp>=2.0", "networkx>=3.1"]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/spec-eng/spec-eng"
+  }
+}

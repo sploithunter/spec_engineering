@@ -1,0 +1,24 @@
+{
+  "name": "spec-eng",
+  "version": "0.1.0",
+  "description": "Spec Engineering: ATDD workflow with real recursive descent parsing, state machine extraction, and automated gap analysis for behavioral specifications.",
+  "author": "spec-eng",
+  "keywords": [
+    "atdd",
+    "bdd",
+    "gwt",
+    "given-when-then",
+    "state-machine",
+    "gap-analysis",
+    "spec-guardian",
+    "test-generation",
+    "behavioral-specs"
+  ],
+  "entryPoints": {
+    "mcp": ".mcp.json",
+    "agents": "agents/",
+    "commands": "commands/",
+    "skills": "skills/",
+    "hooks": "hooks/hooks.json"
+  }
+}

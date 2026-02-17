@@ -1,8 +1,8 @@
 # spec-eng
 
-A CLI tool for **Spec Engineering** — progressive refinement from human intent to verified behavioral specifications using Given/When/Then (GWT) format.
+A **Claude Code plugin** and CLI tool for **Spec Engineering** — progressive refinement from human intent to verified behavioral specifications using Given/When/Then (GWT) format.
 
-`spec-eng` extracts state machines from GWT specs, performs gap analysis to find missing scenarios, generates test scaffolds, and optionally uses AI (Anthropic Claude) for spec drafting and suggestions.
+`spec-eng` provides a real recursive descent parser, state machine extraction, automated gap analysis, and AI-powered test generation. Use it as a standalone CLI or as a Claude Code plugin for the full ATDD workflow.
 
 ## Why
 
@@ -11,9 +11,27 @@ Most teams write tests after code. Spec Engineering flips this: you write behavi
 - **Specs are portable** — the same `.gwt` files work across Python, TypeScript, Rust, or any target
 - **The Spec Guardian** catches implementation details leaking into your specs (class names, database terms, API paths)
 - **Gap analysis** finds missing scenarios before you write a single line of code
+- **AI-powered test generation** produces complete, runnable tests — not stubs with TODOs
 - **Self-hosting** — `spec-eng` can parse and analyze its own specification
 
-## Install
+## Install as Claude Code Plugin
+
+```bash
+# From the plugin directory
+claude plugin install /path/to/spec-eng
+
+# Or install from a cloned repo
+cd spec-eng
+claude plugin install .
+```
+
+This gives you:
+- MCP tools: `parse_gwt`, `build_state_graph`, `analyze_spec_gaps`, `check_guardian`, `find_equivalences`, `export_graph`, `detect_project`, `get_project_status`
+- Slash commands: `/spec-eng`, `/spec-check`, `/spec-graph`, `/spec-gaps`
+- Agents: test-generator, spec-guardian, pipeline-builder
+- Hooks: spec-exists warnings and stop reminders
+
+## Install as CLI
 
 ```bash
 pip install -e ".[dev]"
@@ -21,7 +39,23 @@ pip install -e ".[dev]"
 
 Requires Python 3.11+.
 
-## Quick Start
+## Quick Start (Plugin)
+
+```
+/spec-eng user authentication with email and password
+```
+
+This walks you through the full 8-step ATDD workflow:
+1. Understand the feature
+2. Write GWT specs
+3. Parse and validate
+4. Build state graph
+5. Gap analysis
+6. Generate complete tests
+7. Implement with TDD
+8. Review specs
+
+## Quick Start (CLI)
 
 ```bash
 # Initialize a new project
@@ -67,7 +101,29 @@ WHEN another user registers with the same email.
 THEN registration fails with a duplicate email error.
 ```
 
-## Commands
+## Slash Commands
+
+| Command | Description |
+|---------|-------------|
+| `/spec-eng` | Start full ATDD workflow for a feature |
+| `/spec-check` | Audit specs for implementation leakage |
+| `/spec-graph` | Build and display state machine graph |
+| `/spec-gaps` | Run gap analysis, present findings |
+
+## MCP Tools
+
+| Tool | Purpose |
+|------|---------|
+| `parse_gwt` | Parse .gwt files into structured scenarios |
+| `build_state_graph` | Extract state machine from scenarios |
+| `analyze_spec_gaps` | Find dead ends, unreachable states, contradictions |
+| `check_guardian` | Detect implementation detail leakage |
+| `find_equivalences` | Detect duplicate/similar state labels |
+| `export_graph` | Export graph as DOT or JSON |
+| `detect_project` | Detect project language and framework |
+| `get_project_status` | Spec count, graph size, gap count, pipeline state |
+
+## CLI Commands
 
 | Command | Description |
 |---------|-------------|
@@ -89,13 +145,13 @@ THEN registration fails with a duplicate email error.
 
 ```
 write specs (.gwt)
-    → parse (recursive descent)
-    → graph (state machine extraction)
-    → gaps (completeness analysis)
-    → iterate (write more specs)
-    → bootstrap + generate (test scaffolds)
-    → implement (fill in TODOs)
-    → verify (both test streams pass)
+    -> parse (recursive descent)
+    -> graph (state machine extraction)
+    -> gaps (completeness analysis)
+    -> iterate (write more specs)
+    -> generate tests (AI-powered, complete & runnable)
+    -> implement (TDD red-green-refactor)
+    -> verify (both test streams pass)
 ```
 
 ## Spec Guardian
@@ -103,11 +159,11 @@ write specs (.gwt)
 The guardian detects implementation details in your specs:
 
 ```
-⚠ "GIVEN the UserService is initialized"
-  → Suggests: "GIVEN the system is ready to register users"
+  "GIVEN the UserService is initialized"
+  -> Suggests: "GIVEN the system is ready to register users"
 
-⚠ "WHEN a POST request is sent to /api/users"
-  → Suggests: "WHEN a user submits registration"
+  "WHEN a POST request is sent to /api/users"
+  -> Suggests: "WHEN a user submits registration"
 ```
 
 Configure sensitivity and allowlists in `.spec-eng/config.json`.
@@ -138,7 +194,7 @@ pytest -m acceptance    # Acceptance tests only
 pytest -m e2e           # End-to-end tests only
 ```
 
-282 tests covering all 52 acceptance scenarios from the [SPEC](SPEC.md).
+306 tests covering all 52 acceptance scenarios from the [SPEC](SPEC.md).
 
 ## Project Structure
 
@@ -155,7 +211,13 @@ src/spec_eng/
   runner.py         # Test execution
   ai.py             # Anthropic Claude integration
   config.py         # Configuration management
+  mcp_server.py     # FastMCP server for Claude Code integration
   exporters/        # DOT and JSON export
+.claude-plugin/     # Plugin metadata
+agents/             # Agent definitions (test-generator, spec-guardian, pipeline-builder)
+commands/           # Slash commands
+skills/             # Workflow skills (ATDD 8-step process)
+hooks/              # Event hooks (spec warnings, stop reminders)
 ```
 
 ## License
