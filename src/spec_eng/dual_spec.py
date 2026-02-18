@@ -859,7 +859,9 @@ def compile_spec(input_path: Path, vocab: Vocab, project_root: Path | None = Non
         dal_path.write_text(dal_text)
         canonical_path.write_text(canonical_gwt)
         ir_path.write_text(serialize_ir_json(ir))
-        diff_path.write_text(_unified_diff(input_path.read_text(), canonical_gwt, str(input_path), str(canonical_path)))
+        from_name = _display_path(input_path, project_root)
+        to_name = _display_path(canonical_path, project_root)
+        diff_path.write_text(_unified_diff(input_path.read_text(), canonical_gwt, from_name, to_name))
 
         canonical_ir = parse_gwt(canonical_path, vocab)
         if canonical_ir.to_dict() != ir.to_dict():
@@ -902,6 +904,13 @@ def _unified_diff(original: str, canonical: str, from_name: str, to_name: str) -
     if not content:
         return "No textual differences.\n"
     return content + "\n"
+
+
+def _display_path(path: Path, project_root: Path) -> str:
+    try:
+        return str(path.relative_to(project_root))
+    except ValueError:
+        return str(path)
 
 
 def check_specs(target: Path, vocab: Vocab) -> list[SpecViolation]:
