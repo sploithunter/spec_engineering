@@ -34,3 +34,27 @@
 2. Retry strategy for unresolved blocking questions with follow-up generated answers.
 3. Domain vocab bootstrap from README noun phrases before first interrogation pass.
 4. Parallel fanout execution via external coding-agent bridge workers by repo subset.
+
+## 2026-02-18 (100-repo Build + 80/20 Split)
+- Built dataset from 100 medium/well-documented repos (GitHub search based).
+- Artifacts:
+  - `datasets/repo_pairs/` (per-repo GWT/DAL/canonical/IR + metadata)
+  - `datasets/repo_pairs_manifest.json`
+  - `datasets/repo_pairs_split.json`
+- Results:
+  - Eligible: 100
+  - Stable/approved (`ok`): 68
+  - Failed: 32
+  - Repo-level split from `ok` set: Train 54 / Eval 14
+
+### Failure Breakdown (first pass)
+- `type_validation`: 19
+- `spec_check_violation`: 10
+- `blocking_questions`: 3
+
+### Interpretation
+- Current vocab/type constraints and lint rules are the dominant blockers.
+- This confirms that convergence improvements now depend on:
+  1) sanitizing/normalizing repo descriptions into allowed vocab types,
+  2) tuning overly broad leakage token checks,
+  3) strengthening automated answer completion to clear blocking questions.

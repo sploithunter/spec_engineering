@@ -1,0 +1,283 @@
+{
+  "seed": "repo-split-v1",
+  "train_ratio": 0.8,
+  "total_ok": 68,
+  "train_count": 54,
+  "eval_count": 14,
+  "train": [
+    {
+      "owner": "KDAB",
+      "repo": "hotspot"
+    },
+    {
+      "owner": "vuejs",
+      "repo": "v2.vuejs.org"
+    },
+    {
+      "owner": "vuejs",
+      "repo": "vue-loader"
+    },
+    {
+      "owner": "shaxiu",
+      "repo": "XianyuAutoAgent"
+    },
+    {
+      "owner": "coder",
+      "repo": "websocket"
+    },
+    {
+      "owner": "DingMouRen",
+      "repo": "LayoutManagerGroup"
+    },
+    {
+      "owner": "deployd",
+      "repo": "deployd"
+    },
+    {
+      "owner": "react-native-linear-gradient",
+      "repo": "react-native-linear-gradient"
+    },
+    {
+      "owner": "zpoint",
+      "repo": "CPython-Internals"
+    },
+    {
+      "owner": "stlink-org",
+      "repo": "stlink"
+    },
+    {
+      "owner": "nomi-san",
+      "repo": "parsec-vdd"
+    },
+    {
+      "owner": "shoutem",
+      "repo": "ui"
+    },
+    {
+      "owner": "dotenvx",
+      "repo": "dotenvx"
+    },
+    {
+      "owner": "drawrowfly",
+      "repo": "tiktok-scraper"
+    },
+    {
+      "owner": "chakra-ui",
+      "repo": "ark"
+    },
+    {
+      "owner": "soapyigu",
+      "repo": "LeetCode-Swift"
+    },
+    {
+      "owner": "rubensousa",
+      "repo": "GravitySnapHelper"
+    },
+    {
+      "owner": "bitpay",
+      "repo": "bitcore"
+    },
+    {
+      "owner": "transcranial",
+      "repo": "keras-js"
+    },
+    {
+      "owner": "Th3Wall",
+      "repo": "Fakeflix"
+    },
+    {
+      "owner": "frontend-collective",
+      "repo": "react-sortable-tree"
+    },
+    {
+      "owner": "PokeAPI",
+      "repo": "pokeapi"
+    },
+    {
+      "owner": "josephg",
+      "repo": "ShareJS"
+    },
+    {
+      "owner": "andrewngu",
+      "repo": "sound-redux"
+    },
+    {
+      "owner": "flashinfer-ai",
+      "repo": "flashinfer"
+    },
+    {
+      "owner": "philz1337x",
+      "repo": "clarity-upscaler"
+    },
+    {
+      "owner": "vscode-icons",
+      "repo": "vscode-icons"
+    },
+    {
+      "owner": "orhanobut",
+      "repo": "dialogplus"
+    },
+    {
+      "owner": "knative",
+      "repo": "docs"
+    },
+    {
+      "owner": "Leonidas-from-XIV",
+      "repo": "node-xml2js"
+    },
+    {
+      "owner": "levey",
+      "repo": "AwesomeMenu"
+    },
+    {
+      "owner": "sentient-agi",
+      "repo": "ROMA"
+    },
+    {
+      "owner": "namidaco",
+      "repo": "namida"
+    },
+    {
+      "owner": "gfxfundamentals",
+      "repo": "webgl-fundamentals"
+    },
+    {
+      "owner": "Instagram",
+      "repo": "MonkeyType"
+    },
+    {
+      "owner": "Alfred1984",
+      "repo": "interesting-python"
+    },
+    {
+      "owner": "wallix",
+      "repo": "awless"
+    },
+    {
+      "owner": "nginx",
+      "repo": "kubernetes-ingress"
+    },
+    {
+      "owner": "alainm23",
+      "repo": "planify"
+    },
+    {
+      "owner": "chrisant996",
+      "repo": "clink"
+    },
+    {
+      "owner": "RetroMusicPlayer",
+      "repo": "RetroMusicPlayer"
+    },
+    {
+      "owner": "tidyverse",
+      "repo": "dplyr"
+    },
+    {
+      "owner": "godotengine",
+      "repo": "godot-docs"
+    },
+    {
+      "owner": "deepseek-ai",
+      "repo": "DeepSeek-V2"
+    },
+    {
+      "owner": "vugu",
+      "repo": "vugu"
+    },
+    {
+      "owner": "chakra-ui",
+      "repo": "zag"
+    },
+    {
+      "owner": "21st-dev",
+      "repo": "1code"
+    },
+    {
+      "owner": "NVlabs",
+      "repo": "Sana"
+    },
+    {
+      "owner": "MicaForEveryone",
+      "repo": "MicaForEveryone"
+    },
+    {
+      "owner": "apache",
+      "repo": "maven"
+    },
+    {
+      "owner": "jorgebastida",
+      "repo": "awslogs"
+    },
+    {
+      "owner": "pluwen",
+      "repo": "awesome-testflight-link"
+    },
+    {
+      "owner": "taubyte",
+      "repo": "tau"
+    },
+    {
+      "owner": "Dr-TSNG",
+      "repo": "Hide-My-Applist"
+    }
+  ],
+  "eval": [
+    {
+      "owner": "giggsey",
+      "repo": "libphonenumber-for-php"
+    },
+    {
+      "owner": "CloverHackyColor",
+      "repo": "CloverBootloader"
+    },
+    {
+      "owner": "Ocramius",
+      "repo": "ProxyManager"
+    },
+    {
+      "owner": "lukevella",
+      "repo": "rallly"
+    },
+    {
+      "owner": "nsf",
+      "repo": "gocode"
+    },
+    {
+      "owner": "JodaOrg",
+      "repo": "joda-time"
+    },
+    {
+      "owner": "HearthSim",
+      "repo": "Hearthstone-Deck-Tracker"
+    },
+    {
+      "owner": "SpaceTimee",
+      "repo": "Sheas-Cealer"
+    },
+    {
+      "owner": "easychen",
+      "repo": "pushdeer"
+    },
+    {
+      "owner": "hickory-dns",
+      "repo": "hickory-dns"
+    },
+    {
+      "owner": "mgramin",
+      "repo": "awesome-db-tools"
+    },
+    {
+      "owner": "xiaolin3303",
+      "repo": "wx-charts"
+    },
+    {
+      "owner": "rvaiya",
+      "repo": "keyd"
+    },
+    {
+      "owner": "SwiftOldDriver",
+      "repo": "iOS-Weekly"
+    }
+  ]
+}

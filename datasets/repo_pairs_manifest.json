@@ -1,0 +1,909 @@
+{
+  "generated_at_utc": "2026-02-18T05:08:16.780396+00:00",
+  "target": 100,
+  "eligible": 100,
+  "ok": 68,
+  "failed": 32,
+  "results": [
+    {
+      "owner": "21st-dev",
+      "repo": "1code",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "21st-dev-1code",
+      "error": ""
+    },
+    {
+      "owner": "alainm23",
+      "repo": "planify",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "alainm23-planify",
+      "error": ""
+    },
+    {
+      "owner": "Alfred1984",
+      "repo": "interesting-python",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "alfred1984-interesting-python",
+      "error": ""
+    },
+    {
+      "owner": "andrewngu",
+      "repo": "sound-redux",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "andrewngu-sound-redux",
+      "error": ""
+    },
+    {
+      "owner": "apache",
+      "repo": "maven",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "apache-maven",
+      "error": ""
+    },
+    {
+      "owner": "bitpay",
+      "repo": "bitcore",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "bitpay-bitcore",
+      "error": ""
+    },
+    {
+      "owner": "chakra-ui",
+      "repo": "ark",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "chakra-ui-ark",
+      "error": ""
+    },
+    {
+      "owner": "chakra-ui",
+      "repo": "zag",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "chakra-ui-zag",
+      "error": ""
+    },
+    {
+      "owner": "chrisant996",
+      "repo": "clink",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "chrisant996-clink",
+      "error": ""
+    },
+    {
+      "owner": "CloverHackyColor",
+      "repo": "CloverBootloader",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "cloverhackycolor-cloverbootloader",
+      "error": ""
+    },
+    {
+      "owner": "coder",
+      "repo": "websocket",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "coder-websocket",
+      "error": ""
+    },
+    {
+      "owner": "deepseek-ai",
+      "repo": "DeepSeek-V2",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "deepseek-ai-deepseek-v2",
+      "error": ""
+    },
+    {
+      "owner": "deployd",
+      "repo": "deployd",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "deployd-deployd",
+      "error": ""
+    },
+    {
+      "owner": "DingMouRen",
+      "repo": "LayoutManagerGroup",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "dingmouren-layoutmanagergroup",
+      "error": ""
+    },
+    {
+      "owner": "dotenvx",
+      "repo": "dotenvx",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "dotenvx-dotenvx",
+      "error": ""
+    },
+    {
+      "owner": "Dr-TSNG",
+      "repo": "Hide-My-Applist",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "dr-tsng-hide-my-applist",
+      "error": ""
+    },
+    {
+      "owner": "drawrowfly",
+      "repo": "tiktok-scraper",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "drawrowfly-tiktok-scraper",
+      "error": ""
+    },
+    {
+      "owner": "easychen",
+      "repo": "pushdeer",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "easychen-pushdeer",
+      "error": ""
+    },
+    {
+      "owner": "flashinfer-ai",
+      "repo": "flashinfer",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "flashinfer-ai-flashinfer",
+      "error": ""
+    },
+    {
+      "owner": "frontend-collective",
+      "repo": "react-sortable-tree",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "frontend-collective-react-sortable-tree",
+      "error": ""
+    },
+    {
+      "owner": "gfxfundamentals",
+      "repo": "webgl-fundamentals",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "gfxfundamentals-webgl-fundamentals",
+      "error": ""
+    },
+    {
+      "owner": "giggsey",
+      "repo": "libphonenumber-for-php",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "giggsey-libphonenumber-for-php",
+      "error": ""
+    },
+    {
+      "owner": "godotengine",
+      "repo": "godot-docs",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "godotengine-godot-docs",
+      "error": ""
+    },
+    {
+      "owner": "HearthSim",
+      "repo": "Hearthstone-Deck-Tracker",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "hearthsim-hearthstone-deck-tracker",
+      "error": ""
+    },
+    {
+      "owner": "hickory-dns",
+      "repo": "hickory-dns",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "hickory-dns-hickory-dns",
+      "error": ""
+    },
+    {
+      "owner": "Instagram",
+      "repo": "MonkeyType",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "instagram-monkeytype",
+      "error": ""
+    },
+    {
+      "owner": "JodaOrg",
+      "repo": "joda-time",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "jodaorg-joda-time",
+      "error": ""
+    },
+    {
+      "owner": "jorgebastida",
+      "repo": "awslogs",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "jorgebastida-awslogs",
+      "error": ""
+    },
+    {
+      "owner": "josephg",
+      "repo": "ShareJS",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "josephg-sharejs",
+      "error": ""
+    },
+    {
+      "owner": "KDAB",
+      "repo": "hotspot",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "kdab-hotspot",
+      "error": ""
+    },
+    {
+      "owner": "knative",
+      "repo": "docs",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "knative-docs",
+      "error": ""
+    },
+    {
+      "owner": "Leonidas-from-XIV",
+      "repo": "node-xml2js",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "leonidas-from-xiv-node-xml2js",
+      "error": ""
+    },
+    {
+      "owner": "levey",
+      "repo": "AwesomeMenu",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "levey-awesomemenu",
+      "error": ""
+    },
+    {
+      "owner": "lukevella",
+      "repo": "rallly",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "lukevella-rallly",
+      "error": ""
+    },
+    {
+      "owner": "mgramin",
+      "repo": "awesome-db-tools",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "mgramin-awesome-db-tools",
+      "error": ""
+    },
+    {
+      "owner": "MicaForEveryone",
+      "repo": "MicaForEveryone",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "micaforeveryone-micaforeveryone",
+      "error": ""
+    },
+    {
+      "owner": "namidaco",
+      "repo": "namida",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "namidaco-namida",
+      "error": ""
+    },
+    {
+      "owner": "nginx",
+      "repo": "kubernetes-ingress",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "nginx-kubernetes-ingress",
+      "error": ""
+    },
+    {
+      "owner": "nomi-san",
+      "repo": "parsec-vdd",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "nomi-san-parsec-vdd",
+      "error": ""
+    },
+    {
+      "owner": "nsf",
+      "repo": "gocode",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "nsf-gocode",
+      "error": ""
+    },
+    {
+      "owner": "NVlabs",
+      "repo": "Sana",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "nvlabs-sana",
+      "error": ""
+    },
+    {
+      "owner": "Ocramius",
+      "repo": "ProxyManager",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "ocramius-proxymanager",
+      "error": ""
+    },
+    {
+      "owner": "orhanobut",
+      "repo": "dialogplus",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "orhanobut-dialogplus",
+      "error": ""
+    },
+    {
+      "owner": "philz1337x",
+      "repo": "clarity-upscaler",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "philz1337x-clarity-upscaler",
+      "error": ""
+    },
+    {
+      "owner": "pluwen",
+      "repo": "awesome-testflight-link",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "pluwen-awesome-testflight-link",
+      "error": ""
+    },
+    {
+      "owner": "PokeAPI",
+      "repo": "pokeapi",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "pokeapi-pokeapi",
+      "error": ""
+    },
+    {
+      "owner": "react-native-linear-gradient",
+      "repo": "react-native-linear-gradient",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "react-native-linear-gradient-react-native-linear-gradient",
+      "error": ""
+    },
+    {
+      "owner": "RetroMusicPlayer",
+      "repo": "RetroMusicPlayer",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "retromusicplayer-retromusicplayer",
+      "error": ""
+    },
+    {
+      "owner": "rubensousa",
+      "repo": "GravitySnapHelper",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "rubensousa-gravitysnaphelper",
+      "error": ""
+    },
+    {
+      "owner": "rvaiya",
+      "repo": "keyd",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "rvaiya-keyd",
+      "error": ""
+    },
+    {
+      "owner": "sentient-agi",
+      "repo": "ROMA",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "sentient-agi-roma",
+      "error": ""
+    },
+    {
+      "owner": "shaxiu",
+      "repo": "XianyuAutoAgent",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "shaxiu-xianyuautoagent",
+      "error": ""
+    },
+    {
+      "owner": "shoutem",
+      "repo": "ui",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "shoutem-ui",
+      "error": ""
+    },
+    {
+      "owner": "soapyigu",
+      "repo": "LeetCode-Swift",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "soapyigu-leetcode-swift",
+      "error": ""
+    },
+    {
+      "owner": "SpaceTimee",
+      "repo": "Sheas-Cealer",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "spacetimee-sheas-cealer",
+      "error": ""
+    },
+    {
+      "owner": "stlink-org",
+      "repo": "stlink",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "stlink-org-stlink",
+      "error": ""
+    },
+    {
+      "owner": "SwiftOldDriver",
+      "repo": "iOS-Weekly",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "swiftolddriver-ios-weekly",
+      "error": ""
+    },
+    {
+      "owner": "taubyte",
+      "repo": "tau",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "taubyte-tau",
+      "error": ""
+    },
+    {
+      "owner": "Th3Wall",
+      "repo": "Fakeflix",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "th3wall-fakeflix",
+      "error": ""
+    },
+    {
+      "owner": "tidyverse",
+      "repo": "dplyr",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "tidyverse-dplyr",
+      "error": ""
+    },
+    {
+      "owner": "transcranial",
+      "repo": "keras-js",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "transcranial-keras-js",
+      "error": ""
+    },
+    {
+      "owner": "vscode-icons",
+      "repo": "vscode-icons",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "vscode-icons-vscode-icons",
+      "error": ""
+    },
+    {
+      "owner": "vuejs",
+      "repo": "v2.vuejs.org",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "vuejs-v2-vuejs-org",
+      "error": ""
+    },
+    {
+      "owner": "vuejs",
+      "repo": "vue-loader",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "vuejs-vue-loader",
+      "error": ""
+    },
+    {
+      "owner": "vugu",
+      "repo": "vugu",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "vugu-vugu",
+      "error": ""
+    },
+    {
+      "owner": "wallix",
+      "repo": "awless",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "wallix-awless",
+      "error": ""
+    },
+    {
+      "owner": "xiaolin3303",
+      "repo": "wx-charts",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "xiaolin3303-wx-charts",
+      "error": ""
+    },
+    {
+      "owner": "zpoint",
+      "repo": "CPython-Internals",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "slug": "zpoint-cpython-internals",
+      "error": ""
+    },
+    {
+      "owner": "ag2ai",
+      "repo": "faststream",
+      "status": "failed",
+      "iterations": 0,
+      "approved": false,
+      "slug": "",
+      "error": "/var/folders/2k/fcznpd_s2xv5kfgm5l19bz7c0000gn/T/repo_dataset_odch6plx/specs/ag2ai-faststream.txt:4: Value 'faststream behavior where FastStream is a powerful and easy-to-use asynchronous Python framework for building asynchronous services interacting with event streams such as Apache Kafka, RabbitMQ, NATS and Redis.. Primary concepts include faststream, https, broker, import' does not match type 'concept'"
+    },
+    {
+      "owner": "ckan",
+      "repo": "ckan",
+      "status": "failed",
+      "iterations": 0,
+      "approved": false,
+      "slug": "",
+      "error": "/var/folders/2k/fcznpd_s2xv5kfgm5l19bz7c0000gn/T/repo_dataset_aeyex7de/specs/ckan-ckan.txt:4: Value 'ckan behavior where CKAN is an open-source DMS (data management system) for powering data hubs and data portals. CKAN makes it easy to publish, share and use data. It powers catalog.data.gov, open.canada.ca/data, data.humdata.org among many other sites.. Primary concepts include ckan, https, github, gitter' does not match type 'concept'"
+    },
+    {
+      "owner": "deedy",
+      "repo": "Deedy-Resume",
+      "status": "failed",
+      "iterations": 0,
+      "approved": false,
+      "slug": "",
+      "error": "/var/folders/2k/fcznpd_s2xv5kfgm5l19bz7c0000gn/T/repo_dataset_2o2ooa01/specs/deedy-deedy-resume.txt:4: Value 'Deedy-Resume behavior where A one page , two asymmetric column resume template in XeTeX that caters to an undergraduate Computer Science student. Primary concepts include license, fonts, macfonts, deedy-resume' does not match type 'concept'"
+    },
+    {
+      "owner": "EsotericSoftware",
+      "repo": "spine-runtimes",
+      "status": "failed",
+      "iterations": 0,
+      "approved": false,
+      "slug": "",
+      "error": "spec-check violation at /var/folders/2k/fcznpd_s2xv5kfgm5l19bz7c0000gn/T/repo_dataset_ofisx95e/specs/esotericsoftware-spine-runtimes.txt:4:179: Implementation token 'http' is banned"
+    },
+    {
+      "owner": "exif-js",
+      "repo": "exif-js",
+      "status": "failed",
+      "iterations": 0,
+      "approved": false,
+      "slug": "",
+      "error": "spec-check violation at /var/folders/2k/fcznpd_s2xv5kfgm5l19bz7c0000gn/T/repo_dataset_5v7_p17u/specs/exif-js-exif-js.txt:4:168: Implementation token 'function' is banned"
+    },
+    {
+      "owner": "frogermcs",
+      "repo": "InstaMaterial",
+      "status": "failed",
+      "iterations": 0,
+      "approved": false,
+      "slug": "",
+      "error": "spec-check violation at /var/folders/2k/fcznpd_s2xv5kfgm5l19bz7c0000gn/T/repo_dataset_ltvnwy5h/specs/frogermcs-instamaterial.txt:4:201: Implementation token 'http' is banned"
+    },
+    {
+      "owner": "FunnyWolf",
+      "repo": "Viper",
+      "status": "failed",
+      "iterations": 0,
+      "approved": false,
+      "slug": "",
+      "error": "spec-check violation at /var/folders/2k/fcznpd_s2xv5kfgm5l19bz7c0000gn/T/repo_dataset_6_og1s3f/specs/funnywolf-viper.txt:4:104: Implementation identifier 'platform' is banned"
+    },
+    {
+      "owner": "google",
+      "repo": "pebble",
+      "status": "failed",
+      "iterations": 0,
+      "approved": false,
+      "slug": "",
+      "error": "/var/folders/2k/fcznpd_s2xv5kfgm5l19bz7c0000gn/T/repo_dataset_9img3wp6/specs/google-pebble.txt:4: Value 'pebble behavior where This is the latest version of the internal repository from Pebble Technology providing the software to run on Pebble watches. Proprietary source code has been removed from this repository and it will not compile as-is. This is for information only.. Primary concepts include been, code, google, pebble' does not match type 'concept'"
+    },
+    {
+      "owner": "hakluke",
+      "repo": "hakrawler",
+      "status": "failed",
+      "iterations": 0,
+      "approved": false,
+      "slug": "",
+      "error": "Cannot approve: unresolved blocking questions remain"
+    },
+    {
+      "owner": "helmfile",
+      "repo": "helmfile",
+      "status": "failed",
+      "iterations": 0,
+      "approved": false,
+      "slug": "",
+      "error": "/var/folders/2k/fcznpd_s2xv5kfgm5l19bz7c0000gn/T/repo_dataset_0rg7r81d/specs/helmfile-helmfile.txt:4: Value 'helmfile behavior where Declaratively deploy your Kubernetes manifests, Kustomize configs, and Charts as Helm releases. Generate all-in-one manifests for use with ArgoCD.. Primary concepts include helmfile, https, github, latest' does not match type 'concept'"
+    },
+    {
+      "owner": "hengyoush",
+      "repo": "kyanos",
+      "status": "failed",
+      "iterations": 0,
+      "approved": false,
+      "slug": "",
+      "error": "/var/folders/2k/fcznpd_s2xv5kfgm5l19bz7c0000gn/T/repo_dataset_s426jot5/specs/hengyoush-kyanos.txt:4: Value 'kyanos behavior where Kyanos is a networking analysis tool using eBPF. It can visualize the time packets spend in the kernel, capture requests/responses, makes troubleshooting more efficient.. Primary concepts include kyanos, https, watch, http' does not match type 'concept'"
+    },
+    {
+      "owner": "jnordberg",
+      "repo": "gif.js",
+      "status": "failed",
+      "iterations": 0,
+      "approved": false,
+      "slug": "",
+      "error": "spec-check violation at /var/folders/2k/fcznpd_s2xv5kfgm5l19bz7c0000gn/T/repo_dataset_iu6r2fdx/specs/jnordberg-gif-js.txt:4:151: Implementation token 'http' is banned"
+    },
+    {
+      "owner": "lexiforest",
+      "repo": "curl_cffi",
+      "status": "failed",
+      "iterations": 0,
+      "approved": false,
+      "slug": "",
+      "error": "/var/folders/2k/fcznpd_s2xv5kfgm5l19bz7c0000gn/T/repo_dataset_xvgch_z9/specs/lexiforest-curl-cffi.txt:4: Value 'curl_cffi behavior where Python binding for curl-impersonate fork via cffi. A http client that can impersonate browser tls/ja3/http2 fingerprints.. Primary concepts include https, curl_cffi, github, version' does not match type 'concept'"
+    },
+    {
+      "owner": "longitachi",
+      "repo": "ZLPhotoBrowser",
+      "status": "failed",
+      "iterations": 0,
+      "approved": false,
+      "slug": "",
+      "error": "/var/folders/2k/fcznpd_s2xv5kfgm5l19bz7c0000gn/T/repo_dataset__3x_mx69/specs/longitachi-zlphotobrowser.txt:4: Value 'ZLPhotoBrowser behavior where Wechat-like image picker. Support select photos, videos, gif and livePhoto. Support edit image and crop video. \u5fae\u4fe1\u6837\u5f0f\u7684\u56fe\u7247\u9009\u62e9\u5668\uff0c\u652f\u6301\u9884\u89c8/\u76f8\u518c\u5185\u62cd\u7167\u53ca\u5f55\u89c6\u9891\u3001\u62d6\u62fd/\u6ed1\u52a8\u9009\u62e9\uff0c\u7f16\u8f91\u56fe\u7247/\u89c6\u9891\uff0c\u652f\u6301\u591a\u8bed\u8a00\u56fd\u9645\u5316\u7b49\u529f\u80fd;. Primary concepts include https, zlphotobrowser, github, longitachi' does not match type 'concept'"
+    },
+    {
+      "owner": "mbleigh",
+      "repo": "acts-as-taggable-on",
+      "status": "failed",
+      "iterations": 0,
+      "approved": false,
+      "slug": "",
+      "error": "spec-check violation at /var/folders/2k/fcznpd_s2xv5kfgm5l19bz7c0000gn/T/repo_dataset_ze893ms4/specs/mbleigh-acts-as-taggable-on.txt:4:102: Implementation token 'Rails' is banned"
+    },
+    {
+      "owner": "microsoft",
+      "repo": "SPTAG",
+      "status": "failed",
+      "iterations": 0,
+      "approved": false,
+      "slug": "",
+      "error": "/var/folders/2k/fcznpd_s2xv5kfgm5l19bz7c0000gn/T/repo_dataset_vvqxojm7/specs/microsoft-sptag.txt:4: Value 'SPTAG behavior where A distributed approximate nearest neighborhood search (ANN) library which provides a high quality vector index build, search and distributed online serving toolkits for large scale vector search scenario.. Primary concepts include build, sptag, search, https' does not match type 'concept'"
+    },
+    {
+      "owner": "openexchangerates",
+      "repo": "accounting.js",
+      "status": "failed",
+      "iterations": 0,
+      "approved": false,
+      "slug": "",
+      "error": "/var/folders/2k/fcznpd_s2xv5kfgm5l19bz7c0000gn/T/repo_dataset_2p6j_j7h/specs/openexchangerates-accounting-js.txt:4: Value 'accounting.js behavior where A lightweight JavaScript library for number, money and currency formatting - fully localisable, zero dependencies.. Primary concepts include accounting, currency, openexchangerates, added' does not match type 'concept'"
+    },
+    {
+      "owner": "OpenGVLab",
+      "repo": "DragGAN",
+      "status": "failed",
+      "iterations": 0,
+      "approved": false,
+      "slug": "",
+      "error": "/var/folders/2k/fcznpd_s2xv5kfgm5l19bz7c0000gn/T/repo_dataset_0rcp24tl/specs/opengvlab-draggan.txt:4: Value 'DragGAN behavior where Unofficial Implementation of DragGAN - \"Drag Your GAN: Interactive Point-based Manipulation on the Generative Image Manifold\" \uff08DragGAN \u5168\u529f\u80fd\u5b9e\u73b0\uff0c\u5728\u7ebfDemo\uff0c\u672c\u5730\u90e8\u7f72\u8bd5\u7528\uff0c\u4ee3\u7801\u3001\u6a21\u578b\u5df2\u5168\u90e8\u5f00\u6e90\uff0c\u652f\u6301Windows, macOS, Linux\uff09. Primary concepts include https, draggan, github, image' does not match type 'concept'"
+    },
+    {
+      "owner": "pablof7z",
+      "repo": "chardin.js",
+      "status": "failed",
+      "iterations": 0,
+      "approved": false,
+      "slug": "",
+      "error": "Cannot approve: unresolved blocking questions remain"
+    },
+    {
+      "owner": "pirate",
+      "repo": "wireguard-docs",
+      "status": "failed",
+      "iterations": 0,
+      "approved": false,
+      "slug": "",
+      "error": "/var/folders/2k/fcznpd_s2xv5kfgm5l19bz7c0000gn/T/repo_dataset_tmipkvmg/specs/pirate-wireguard-docs.txt:4: Value 'wireguard-docs behavior where \ud83d\udcd6 Unofficial WireGuard Documentation: Setup, Usage, Configuration, and full example setups for VPNs supporting both servers & roaming clients.. Primary concepts include https, wireguard, github, public' does not match type 'concept'"
+    },
+    {
+      "owner": "RandyGaul",
+      "repo": "cute_headers",
+      "status": "failed",
+      "iterations": 0,
+      "approved": false,
+      "slug": "",
+      "error": "spec-check violation at /var/folders/2k/fcznpd_s2xv5kfgm5l19bz7c0000gn/T/repo_dataset_ce41wg0i/specs/randygaul-cute-headers.txt:4:94: Implementation identifier 'platform' is banned"
+    },
+    {
+      "owner": "rasbt",
+      "repo": "machine-learning-book",
+      "status": "failed",
+      "iterations": 0,
+      "approved": false,
+      "slug": "",
+      "error": "spec-check violation at /var/folders/2k/fcznpd_s2xv5kfgm5l19bz7c0000gn/T/repo_dataset_dm8xaj3b/specs/rasbt-machine-learning-book.txt:4:88: Implementation token 'Repository' is banned"
+    },
+    {
+      "owner": "rasbt",
+      "repo": "python-machine-learning-book-3rd-edition",
+      "status": "failed",
+      "iterations": 0,
+      "approved": false,
+      "slug": "",
+      "error": "spec-check violation at /var/folders/2k/fcznpd_s2xv5kfgm5l19bz7c0000gn/T/repo_dataset_dewjmxek/specs/rasbt-python-machine-learning-book-3rd-edition.txt:4:156: Implementation token 'repository' is banned"
+    },
+    {
+      "owner": "rivet-dev",
+      "repo": "rivet",
+      "status": "failed",
+      "iterations": 0,
+      "approved": false,
+      "slug": "",
+      "error": "/var/folders/2k/fcznpd_s2xv5kfgm5l19bz7c0000gn/T/repo_dataset_r6ig5ox5/specs/rivet-dev-rivet.txt:4: Value 'rivet behavior where Rivet Actors are a serverless primitive for stateful workloads. Each actor has built-in state, storage, workflows, scheduling, and WebSockets \u2014 everything needed to build the next generation of software.. Primary concepts include rivet, https, docs, github' does not match type 'concept'"
+    },
+    {
+      "owner": "sitespeedio",
+      "repo": "sitespeed.io",
+      "status": "failed",
+      "iterations": 0,
+      "approved": false,
+      "slug": "",
+      "error": "/var/folders/2k/fcznpd_s2xv5kfgm5l19bz7c0000gn/T/repo_dataset_w2cx36aj/specs/sitespeedio-sitespeed-io.txt:4: Value 'sitespeed.io behavior where sitespeed.io is an open-source tool for comprehensive web performance analysis, enabling you to test, monitor, and optimize your website\u2019s speed using real browsers in various environments.. Primary concepts include sitespeed, https, performance, sitespeedio' does not match type 'concept'"
+    },
+    {
+      "owner": "Splode",
+      "repo": "pomotroid",
+      "status": "failed",
+      "iterations": 0,
+      "approved": false,
+      "slug": "",
+      "error": "Cannot approve: unresolved blocking questions remain"
+    },
+    {
+      "owner": "syedhali",
+      "repo": "EZAudio",
+      "status": "failed",
+      "iterations": 0,
+      "approved": false,
+      "slug": "",
+      "error": "/var/folders/2k/fcznpd_s2xv5kfgm5l19bz7c0000gn/T/repo_dataset_zuwtxd71/specs/syedhali-ezaudio.txt:4: Value 'EZAudio behavior where An iOS and macOS audio visualization framework built upon Core Audio useful for anyone doing real-time, low-latency audio processing and visualizations.. Primary concepts include audio, self, file, objectivec' does not match type 'concept'"
+    },
+    {
+      "owner": "tobychui",
+      "repo": "zoraxy",
+      "status": "failed",
+      "iterations": 0,
+      "approved": false,
+      "slug": "",
+      "error": "spec-check violation at /var/folders/2k/fcznpd_s2xv5kfgm5l19bz7c0000gn/T/repo_dataset_zxowo2vc/specs/tobychui-zoraxy.txt:4:86: Implementation token 'HTTP' is banned"
+    },
+    {
+      "owner": "vercel",
+      "repo": "examples",
+      "status": "failed",
+      "iterations": 0,
+      "approved": false,
+      "slug": "",
+      "error": "/var/folders/2k/fcznpd_s2xv5kfgm5l19bz7c0000gn/T/repo_dataset_p3fh9ok_/specs/vercel-examples.txt:4: Value 'examples behavior where Enjoy our curated collection of examples and solutions. Use these patterns to build your own robust and scalable applications.. Primary concepts include vercel, example, https, docs' does not match type 'concept'"
+    },
+    {
+      "owner": "wikimedia",
+      "repo": "mediawiki",
+      "status": "failed",
+      "iterations": 0,
+      "approved": false,
+      "slug": "",
+      "error": "/var/folders/2k/fcznpd_s2xv5kfgm5l19bz7c0000gn/T/repo_dataset_a5nb4aos/specs/wikimedia-mediawiki.txt:4: Value 'mediawiki behavior where \ud83c\udf3b The collaborative editing software that runs Wikipedia. Mirror\u00a0from\u00a0https://gerrit.wikimedia.org/g/mediawiki/core. See\u00a0https://mediawiki.org/wiki/Developer_access for\u00a0contributing.. Primary concepts include mediawiki, https, wiki, mylanguage' does not match type 'concept'"
+    },
+    {
+      "owner": "xlite-dev",
+      "repo": "Awesome-LLM-Inference",
+      "status": "failed",
+      "iterations": 0,
+      "approved": false,
+      "slug": "",
+      "error": "/var/folders/2k/fcznpd_s2xv5kfgm5l19bz7c0000gn/T/repo_dataset_13yw7ze5/specs/xlite-dev-awesome-llm-inference.txt:4: Value 'Awesome-LLM-Inference behavior where \ud83d\udcdaA curated list of Awesome LLM/VLM Inference Papers with Codes: Flash-Attention, Paged-Attention, WINT8/4, Parallelism, etc.\ud83c\udf89. Primary concepts include https, github, arxiv, shields' does not match type 'concept'"
+    },
+    {
+      "owner": "xuejianxianzun",
+      "repo": "PixivBatchDownloader",
+      "status": "failed",
+      "iterations": 0,
+      "approved": false,
+      "slug": "",
+      "error": "/var/folders/2k/fcznpd_s2xv5kfgm5l19bz7c0000gn/T/repo_dataset_2xqiv0fo/specs/xuejianxianzun-pixivbatchdownloader.txt:4: Value 'PixivBatchDownloader behavior where Chrome \u6269\u5c55\uff0c\u6279\u91cf\u4e0b\u8f7d Pixiv \u7684\u63d2\u753b\u548c\u5c0f\u8bf4\u3002\u8fc7\u6ee4\u4f5c\u54c1\u3001\u4e0b\u8f7d\u65f6\u91cd\u547d\u540d\u3001\u8f6c\u6362\u52a8\u6001\u56fe\u7247\u7b49\u3002Powerful Pixiv batch downloader. Batch download artworks and novels, filter works, rename when downloading, convert animated images, and more.. Primary concepts include https, github, xuejianxianzun, pixivbatchdownloader' does not match type 'concept'"
+    }
+  ]
+}
