@@ -1,0 +1,6 @@
+{
+  "spec-eng-workflow": {
+    "command": "spec-eng-workflow-mcp",
+    "args": []
+  }
+}

@@ -18,6 +18,8 @@ dependencies = [
 [project.scripts]
 spec-eng = "spec_eng.cli:cli"
 spec-eng-mcp = "spec_eng.mcp_server:mcp.run"
+spec-eng-workflow-mcp = "spec_eng.workflow_mcp:mcp.run"
+spec-eng-web = "spec_eng.web_api:main"
 
 [project.optional-dependencies]
 dev = [

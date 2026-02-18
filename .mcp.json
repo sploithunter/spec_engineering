@@ -7,5 +7,14 @@
       "fastmcp", "run",
       "${CLAUDE_PLUGIN_ROOT}/src/spec_eng/mcp_server.py"
     ]
+  },
+  "spec-eng-workflow": {
+    "command": "uv",
+    "args": [
+      "run",
+      "--with", "fastmcp",
+      "fastmcp", "run",
+      "${CLAUDE_PLUGIN_ROOT}/src/spec_eng/workflow_mcp.py"
+    ]
   }
 }

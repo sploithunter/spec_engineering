@@ -27,6 +27,7 @@ claude plugin install .
 
 This gives you:
 - MCP tools: `parse_gwt`, `build_state_graph`, `analyze_spec_gaps`, `check_guardian`, `find_equivalences`, `export_graph`, `detect_project`, `get_project_status`
+- Workflow MCP tools: `spec_compile`, `spec_check`, `interrogate`
 - Slash commands: `/spec-eng`, `/spec-check`, `/spec-graph`, `/spec-gaps`
 - Agents: test-generator, spec-guardian, pipeline-builder
 - Hooks: spec-exists warnings and stop reminders
@@ -38,6 +39,41 @@ pip install -e ".[dev]"
 ```
 
 Requires Python 3.11+.
+
+## Standalone MCP (Workflow)
+
+For direct MCP attachment (outside Claude plugin packaging):
+
+```bash
+spec-eng-workflow-mcp
+```
+
+Config example:
+
+```json
+{
+  "spec-eng-workflow": {
+    "command": "spec-eng-workflow-mcp",
+    "args": []
+  }
+}
+```
+
+Use `.mcp.workflow.json` in this repo as a template.
+
+## Web API
+
+Run a lightweight HTTP API for remote automation:
+
+```bash
+spec-eng-web --host 127.0.0.1 --port 8765 --project-root .
+```
+
+Endpoints:
+- `GET /health`
+- `POST /compile` with `{\"input_path\": \"specs/foo.txt\"}`
+- `POST /check` with `{\"input_path\": \"specs/foo.txt\"}`
+- `POST /interrogate` with `{\"idea\": \"...\", \"answers\": [\"k=v\", ...], \"approve\": false}`
 
 ## Quick Start (Plugin)
 
@@ -122,6 +158,9 @@ THEN registration fails with a duplicate email error.
 | `export_graph` | Export graph as DOT or JSON |
 | `detect_project` | Detect project language and framework |
 | `get_project_status` | Spec count, graph size, gap count, pipeline state |
+| `spec_compile` | Compile dual-spec artifacts (`.dal`, canonical GWT, IR, diff) |
+| `spec_check` | Vocab-driven leakage checks for `.txt`/`.dal` |
+| `interrogate` | Deterministic interrogation iteration with compile/check loop |
 
 ## CLI Commands
 
@@ -130,11 +169,14 @@ THEN registration fails with a duplicate email error.
 | `init` | Initialize a project for spec engineering |
 | `new` | Create a new spec file from a description |
 | `draft` | AI-assisted spec drafting (requires Anthropic API key) |
+| `interrogate` | Deterministic idea-to-spec interrogation loop |
 | `graph` | Extract state machine from specs |
 | `gaps` | Analyze graph for missing scenarios |
 | `triage` | Triage detected gaps |
 | `bootstrap` | Set up the test generation pipeline |
 | `parse` | Parse all specs into intermediate representation |
+| `spec-compile` | Compile and normalize dual-spec artifacts |
+| `spec-check` | Run vocab-driven leakage checks |
 | `generate` | Generate test scaffolds from IR |
 | `test` | Run generated acceptance tests |
 | `verify` | Run both acceptance and unit test streams |
@@ -216,8 +258,12 @@ src/spec_eng/
 .claude-plugin/     # Plugin metadata
 agents/             # Agent definitions (test-generator, spec-guardian, pipeline-builder)
 commands/           # Slash commands
+  spec-interrogate.md
+  spec-compile.md
 skills/             # Workflow skills (ATDD 8-step process)
 hooks/              # Event hooks (spec warnings, stop reminders)
+web_api.py          # HTTP API server for compile/check/interrogate
+workflow_mcp.py     # Standalone workflow-focused MCP server
 ```
 
 ## License
