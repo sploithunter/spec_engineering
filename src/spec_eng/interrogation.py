@@ -11,6 +11,10 @@ from typing import Any
 
 from spec_eng.dual_spec import DualSpecError, check_specs, compile_spec, load_vocab
 
+VAGUE_TERMS = {
+    "fast", "quick", "soon", "proper", "appropriate", "intuitive", "simple", "robust",
+}
+
 
 class InterrogationError(Exception):
     """Raised when interrogation workflow operations fail."""
@@ -113,7 +117,27 @@ def build_questions(session: InterrogationSession) -> list[InterrogationQuestion
             id="constraints",
             text="What constraints or limits must be explicit in acceptance behavior?",
         ))
+    vague_hits = detect_vague_terms(session.idea, *session.answers.values())
+    if vague_hits:
+        questions.append(InterrogationQuestion(
+            id="replace_vague_terms",
+            text=(
+                "Replace vague terms with observable behavior: "
+                + ", ".join(sorted(vague_hits))
+            ),
+            blocking=False,
+        ))
     return questions
+
+
+def detect_vague_terms(*texts: str) -> set[str]:
+    hits: set[str] = set()
+    for text in texts:
+        words = re.findall(r"[a-zA-Z]+", text.lower())
+        for word in words:
+            if word in VAGUE_TERMS:
+                hits.add(word)
+    return hits
 
 
 def render_draft_gwt(session: InterrogationSession) -> str:

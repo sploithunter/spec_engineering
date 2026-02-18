@@ -10,6 +10,7 @@ from spec_eng.interrogation import (
     InterrogationError,
     InterrogationSession,
     build_questions,
+    detect_vague_terms,
     default_slug,
     load_session,
     parse_answer_flags,
@@ -56,6 +57,20 @@ def test_build_questions_tracks_missing_answers() -> None:
     assert build_questions(session) == []
 
 
+def test_build_questions_flags_vague_language_non_blocking() -> None:
+    session = InterrogationSession(slug="idea", idea="Need a fast and intuitive flow")
+    session.answers.update({"success_criteria": "works", "failure_case": "fails safely", "constraints": "rate limit 5"})
+    questions = build_questions(session)
+    assert len(questions) == 1
+    assert questions[0].id == "replace_vague_terms"
+    assert not questions[0].blocking
+
+
+def test_detect_vague_terms() -> None:
+    hits = detect_vague_terms("fast response", "robust behavior", "exactly 3 retries")
+    assert hits == {"fast", "robust"}
+
+
 def test_render_draft_gwt_includes_answers() -> None:
     session = InterrogationSession(slug="idea", idea="Idea")
     session.answers = {
@@ -68,3 +83,14 @@ def test_render_draft_gwt_includes_answers() -> None:
     assert "successful registration" in content
     assert "invalid email rejected" in content
     assert "password length minimum" in content
+
+
+def test_render_draft_gwt_updates_answer_driven_lines_deterministically() -> None:
+    session = InterrogationSession(slug="idea", idea="Idea")
+    baseline = render_draft_gwt(session)
+    assert "scenario describing" not in baseline
+
+    session.answers["success_criteria"] = "explicit success behavior"
+    updated = render_draft_gwt(session)
+    assert "explicit success behavior" in updated
+    assert updated.count("explicit success behavior") == 1
