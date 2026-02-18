@@ -63,6 +63,12 @@ class EvalRow:
     alignment_recall: float
     token_overlap: int
     readme_tokens: int
+    ir_step_precision: float
+    ir_step_recall: float
+    ir_step_f1: float
+    ir_value_precision: float
+    ir_value_recall: float
+    ir_value_f1: float
     error: str = ""
 
 
@@ -189,6 +195,95 @@ class HybridLight:
         return idea, ans
 
 
+class CodingIRFirst:
+    """Coding-agent style approach: derive pseudo-prototype IR from repo text."""
+
+    def _extract_identifiers(self, text: str, n: int = 8) -> list[str]:
+        ids = re.findall(r"`([A-Za-z_][A-Za-z0-9_]{2,})`", text)
+        ids += re.findall(r"\b([A-Za-z]+(?:Service|Client|Manager|Engine|Parser|Compiler|Agent|Runner))\b", text)
+        ids += re.findall(r"\b([a-z]+_[a-z0-9_]{2,})\b", text)
+        cleaned = []
+        seen = set()
+        for ident in ids:
+            low = ident.lower()
+            if low in STOPWORDS or len(low) < 4 or low in seen:
+                continue
+            seen.add(low)
+            cleaned.append(low)
+            if len(cleaned) >= n:
+                break
+        return cleaned
+
+    def generate(self, owner: str, repo: str, description: str, readme: str) -> tuple[str, dict[str, str]]:
+        corpus = (readme or "") + "\n" + description
+        terms = top_terms(corpus, 6)
+        identifiers = self._extract_identifiers(corpus, n=6)
+        anchors = identifiers[:3] or terms[:3] or ["core", "workflow", "behavior"]
+        anchor_blob = ", ".join(anchors)
+        concept_blob = ", ".join(terms[:4] or anchors)
+
+        idea = (
+            f"{repo} behavior where prototype contracts align around {anchor_blob}. "
+            f"Primary concepts include {concept_blob}"
+        )
+        ans = {
+            "success_criteria": f"{repo} exposes observable outcomes aligned to {anchor_blob}",
+            "failure_case": f"invalid inputs against {repo} contracts are rejected with actionable guidance",
+            "constraints": f"{repo} behavior remains deterministic and traceable across reruns",
+        }
+        return idea, ans
+
+
+def _flatten_ir_steps(ir_payload: dict[str, Any]) -> set[tuple[str, str, tuple[str, ...]]]:
+    scenarios = ir_payload.get("scenarios", [])
+    steps: set[tuple[str, str, tuple[str, ...]]] = set()
+    for scenario in scenarios:
+        for field in ("givens", "whens", "thens"):
+            for step in scenario.get(field, []):
+                kind = str(step.get("kind", "")).strip()
+                symbol = str(step.get("symbol", "")).strip()
+                args = step.get("args", {})
+                arg_keys = tuple(sorted(args.keys())) if isinstance(args, dict) else ()
+                if kind and symbol:
+                    steps.add((kind, symbol, arg_keys))
+    return steps
+
+
+def _precision_recall_f1(
+    predicted: set[tuple[str, str, tuple[str, ...]]],
+    gold: set[tuple[str, str, tuple[str, ...]]],
+) -> tuple[float, float, float]:
+    if not predicted and not gold:
+        return 1.0, 1.0, 1.0
+    if not predicted:
+        return 0.0, 0.0, 0.0
+    tp = len(predicted & gold)
+    precision = tp / max(1, len(predicted))
+    recall = tp / max(1, len(gold))
+    if precision + recall == 0:
+        f1 = 0.0
+    else:
+        f1 = 2 * precision * recall / (precision + recall)
+    return precision, recall, f1
+
+
+def _flatten_ir_value_terms(ir_payload: dict[str, Any]) -> set[str]:
+    scenarios = ir_payload.get("scenarios", [])
+    out: set[str] = set()
+    for scenario in scenarios:
+        for field in ("givens", "whens", "thens"):
+            for step in scenario.get(field, []):
+                args = step.get("args", {})
+                if not isinstance(args, dict):
+                    continue
+                for key, value in args.items():
+                    if not isinstance(value, str):
+                        continue
+                    for tok in tokenize(value):
+                        out.add(f"{key}:{tok}")
+    return out
+
+
 def run_repo(
     split: str,
     owner: str,
@@ -198,6 +293,7 @@ def run_repo(
     approach_name: str,
     approach: Any,
     vocab_path: Path,
+    dataset_dir: Path,
 ) -> EvalRow:
     readme = fetch_readme(owner, repo, branch)
     vocab = load_vocab(vocab_path)
@@ -224,11 +320,19 @@ def run_repo(
 
             gwt = (td / "specs" / f"{s.slug}.txt").read_text()
             dal = (td / "specs" / f"{s.slug}.dal").read_text()
+            pred_ir_payload = json.loads((td / "acceptance-pipeline" / "ir" / f"{s.slug}.json").read_text())
 
         rset = token_set(readme)
         oset = token_set(gwt + "\n" + dal)
         overlap = len(rset & oset)
         recall = overlap / max(1, len(rset))
+        gold_ir_payload = json.loads((dataset_dir / f"{owner}__{repo}" / "ir.json").read_text())
+        p_steps = _flatten_ir_steps(pred_ir_payload)
+        g_steps = _flatten_ir_steps(gold_ir_payload)
+        ir_p, ir_r, ir_f1 = _precision_recall_f1(p_steps, g_steps)
+        p_vals = _flatten_ir_value_terms(pred_ir_payload)
+        g_vals = _flatten_ir_value_terms(gold_ir_payload)
+        val_p, val_r, val_f1 = _precision_recall_f1(p_vals, g_vals)
 
         return EvalRow(
             split=split,
@@ -241,6 +345,12 @@ def run_repo(
             alignment_recall=round(recall, 3),
             token_overlap=overlap,
             readme_tokens=len(rset),
+            ir_step_precision=round(ir_p, 3),
+            ir_step_recall=round(ir_r, 3),
+            ir_step_f1=round(ir_f1, 3),
+            ir_value_precision=round(val_p, 3),
+            ir_value_recall=round(val_r, 3),
+            ir_value_f1=round(val_f1, 3),
         )
     except InterrogationError as exc:
         return EvalRow(
@@ -254,6 +364,12 @@ def run_repo(
             alignment_recall=0.0,
             token_overlap=0,
             readme_tokens=len(token_set(readme)),
+            ir_step_precision=0.0,
+            ir_step_recall=0.0,
+            ir_step_f1=0.0,
+            ir_value_precision=0.0,
+            ir_value_recall=0.0,
+            ir_value_f1=0.0,
             error=str(exc),
         )
 
@@ -300,6 +416,12 @@ def summarize(rows: list[EvalRow]) -> dict[str, Any]:
             "approval_rate": round(sum(1 for r in ok if r.approved) / max(1, len(group)), 3),
             "avg_iterations_ok": round(sum(r.iterations for r in ok) / max(1, len(ok)), 3),
             "avg_alignment_recall_ok": round(sum(r.alignment_recall for r in ok) / max(1, len(ok)), 3),
+            "avg_ir_step_precision_ok": round(sum(r.ir_step_precision for r in ok) / max(1, len(ok)), 3),
+            "avg_ir_step_recall_ok": round(sum(r.ir_step_recall for r in ok) / max(1, len(ok)), 3),
+            "avg_ir_step_f1_ok": round(sum(r.ir_step_f1 for r in ok) / max(1, len(ok)), 3),
+            "avg_ir_value_precision_ok": round(sum(r.ir_value_precision for r in ok) / max(1, len(ok)), 3),
+            "avg_ir_value_recall_ok": round(sum(r.ir_value_recall for r in ok) / max(1, len(ok)), 3),
+            "avg_ir_value_f1_ok": round(sum(r.ir_value_f1 for r in ok) / max(1, len(ok)), 3),
         }
     return out
 
@@ -310,16 +432,23 @@ def main() -> None:
     parser.add_argument("--split", default="datasets/repo_pairs_split.json")
     parser.add_argument("--vocab", default="specs/vocab.yaml")
     parser.add_argument("--out-prefix", default="reports/approach_eval")
+    parser.add_argument("--max-train", type=int, default=0, help="Limit number of train repos (0 = all)")
+    parser.add_argument("--max-eval", type=int, default=0, help="Limit number of eval repos (0 = all)")
     args = parser.parse_args()
 
     dataset_dir = Path(args.dataset_dir)
     split = load_split(Path(args.split))
+    if args.max_train > 0:
+        split["train"] = split["train"][:args.max_train]
+    if args.max_eval > 0:
+        split["eval"] = split["eval"][:args.max_eval]
 
     train_vectors, train_answers = build_embedding_train_state(dataset_dir, split["train"])
 
     approaches = {
         "embedding-first": EmbeddingFirst(train_vectors, train_answers),
         "frame-first": FrameFirst(),
+        "coding-ir-first": CodingIRFirst(),
     }
     approaches["hybrid-light"] = HybridLight(
         embed=approaches["embedding-first"],
@@ -340,6 +469,7 @@ def main() -> None:
                     approach_name=approach_name,
                     approach=approach,
                     vocab_path=Path(args.vocab),
+                    dataset_dir=dataset_dir,
                 )
             )
         for owner, repo in split["eval"]:
@@ -354,6 +484,7 @@ def main() -> None:
                     approach_name=approach_name,
                     approach=approach,
                     vocab_path=Path(args.vocab),
+                    dataset_dir=dataset_dir,
                 )
             )
 
@@ -380,13 +511,14 @@ def main() -> None:
         "",
         "## Summary",
         "",
-        "| Approach | Total | OK | Failed | Approval Rate | Avg Iter (OK) | Avg Recall (OK) |",
-        "|---|---:|---:|---:|---:|---:|---:|",
+        "| Approach | Total | OK | Failed | Approval Rate | Avg Iter (OK) | Avg Recall (OK) | Avg IR Step F1 (OK) | Avg IR Value F1 (OK) |",
+        "|---|---:|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for name, s in summary.items():
         lines.append(
             f"| {name} | {s['total']} | {s['ok']} | {s['failed']} | {s['approval_rate']:.3f} | "
-            f"{s['avg_iterations_ok']:.3f} | {s['avg_alignment_recall_ok']:.3f} |"
+            f"{s['avg_iterations_ok']:.3f} | {s['avg_alignment_recall_ok']:.3f} | "
+            f"{s['avg_ir_step_f1_ok']:.3f} | {s['avg_ir_value_f1_ok']:.3f} |"
         )
 
     out_md.write_text("\n".join(lines) + "\n")

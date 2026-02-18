@@ -77,3 +77,24 @@
 - Embedding-first currently performs best on this metric.
 - Hybrid-light outperforms frame-first, but trails embedding-first.
 - All approaches reached stable approval in current deterministic loop; next discriminators should include richer semantic fidelity metrics beyond token recall.
+
+## 2026-02-18 (Coding-IR-First + Formal Metric Upgrade)
+- Extended evaluator:
+  - Added `coding-ir-first` strategy (prototype-contract driven idea/answer generation).
+  - Added formal IR semantic metric: argument-value token overlap F1 (`Avg IR Value F1`) in addition to structural step F1.
+  - Added bounded run flags for fast experiments: `--max-train`, `--max-eval`.
+- Sample run:
+  - `scripts/eval_semantic_approaches.py --max-train 5 --max-eval 5`
+  - Reports:
+    - `reports/approach_eval_20260218T053155Z.json`
+    - `reports/approach_eval_20260218T053155Z.md`
+
+### Sample Results (Eval Split, Avg IR Value F1)
+- Embedding-first: `0.918`
+- Coding-ir-first: `0.674`
+- Hybrid-light: `0.604`
+- Frame-first: `0.592`
+
+### Interpretation
+- Structural IR step match saturates (all approaches emit consistent step skeletons), so semantic argument-value overlap is the useful discriminator.
+- On this sample, embedding-first remains strongest; coding-ir-first is viable but currently lower-fidelity in semantic argument content.
