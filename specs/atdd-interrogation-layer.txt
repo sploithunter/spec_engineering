@@ -1,0 +1,44 @@
+;===============================================================
+; Interrogation loop converts user intent into shared understanding.
+;===============================================================
+GIVEN a user has a feature idea described in natural language.
+GIVEN no approved acceptance spec exists for that idea.
+
+WHEN the user starts the interrogation-driven ATDD workflow.
+
+THEN the system proposes an initial GWT draft for review.
+THEN the draft is treated as a hypothesis, not a final contract.
+
+;===============================================================
+; Clarifying questions reduce ambiguity before implementation.
+;===============================================================
+GIVEN an initial GWT draft exists.
+GIVEN the draft contains ambiguous terms, missing constraints, or open assumptions.
+
+WHEN the system interrogates the draft with targeted clarifying questions.
+
+THEN the user can answer each question with domain intent.
+THEN the GWT draft is revised to incorporate the clarified intent.
+THEN unresolved ambiguity is explicitly tracked until answered.
+
+;===============================================================
+; Normalization loop enforces semantic equivalence.
+;===============================================================
+GIVEN a revised GWT draft exists.
+
+WHEN the draft is compiled from GWT to DAL and rendered back to canonical GWT.
+
+THEN the workflow compares semantic equivalence using IR, not string equality.
+THEN any semantic drift is reported as a blocking mismatch.
+THEN the interrogation loop continues until the IR is stable across iterations.
+
+;===============================================================
+; Approval gate establishes shared understanding.
+;===============================================================
+GIVEN the GWT and DAL roundtrip reaches stable IR equivalence.
+
+WHEN the user reviews the canonical GWT and DAL outputs.
+
+THEN the user can approve the spec as the shared behavioral contract.
+THEN pipeline generation consumes the approved IR as the source of truth.
+THEN implementation begins only after this approval gate is passed.

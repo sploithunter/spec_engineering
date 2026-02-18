@@ -1,0 +1,37 @@
+; GENERATED FILE - DO NOT EDIT
+; source of truth is IR and vocab-driven compiler
+
+FEATURE atdd_interrogation_layer.
+
+SCENARIO interrogation_loop_converts_user_intent_into_shared_understanding.
+
+FACT user_has_feature_idea().
+FACT no_approved_acceptance_spec().
+DO start_interrogation_atdd_workflow().
+EXPECT initial_gwt_draft_proposed().
+EXPECT gwt_draft_is_hypothesis().
+
+SCENARIO clarifying_questions_reduce_ambiguity_before_implementation.
+
+FACT initial_gwt_draft_exists().
+FACT draft_has_ambiguities().
+DO interrogate_with_clarifying_questions().
+EXPECT user_answers_clarifying_questions().
+EXPECT gwt_draft_revised().
+EXPECT unresolved_ambiguity_tracked().
+
+SCENARIO normalization_loop_enforces_semantic_equivalence.
+
+FACT revised_gwt_draft_exists().
+DO compile_gwt_dal_roundtrip().
+EXPECT semantic_equivalence_uses_ir().
+EXPECT semantic_drift_blocks_progress().
+EXPECT interrogation_loop_continues_until_stable().
+
+SCENARIO approval_gate_establishes_shared_understanding.
+
+FACT stable_ir_equivalence_reached().
+DO review_canonical_outputs().
+EXPECT user_approves_shared_behavioral_contract().
+EXPECT pipeline_consumes_approved_ir().
+EXPECT implementation_starts_after_approval_gate().

@@ -1,0 +1,150 @@
+{
+  "feature_id": "atdd_interrogation_layer",
+  "scenarios": [
+    {
+      "givens": [
+        {
+          "args": {},
+          "kind": "fact",
+          "symbol": "user_has_feature_idea"
+        },
+        {
+          "args": {},
+          "kind": "fact",
+          "symbol": "no_approved_acceptance_spec"
+        }
+      ],
+      "imports": [],
+      "name": "interrogation_loop_converts_user_intent_into_shared_understanding",
+      "thens": [
+        {
+          "args": {},
+          "kind": "expectation",
+          "symbol": "initial_gwt_draft_proposed"
+        },
+        {
+          "args": {},
+          "kind": "expectation",
+          "symbol": "gwt_draft_is_hypothesis"
+        }
+      ],
+      "whens": [
+        {
+          "args": {},
+          "kind": "action",
+          "symbol": "start_interrogation_atdd_workflow"
+        }
+      ]
+    },
+    {
+      "givens": [
+        {
+          "args": {},
+          "kind": "fact",
+          "symbol": "initial_gwt_draft_exists"
+        },
+        {
+          "args": {},
+          "kind": "fact",
+          "symbol": "draft_has_ambiguities"
+        }
+      ],
+      "imports": [],
+      "name": "clarifying_questions_reduce_ambiguity_before_implementation",
+      "thens": [
+        {
+          "args": {},
+          "kind": "expectation",
+          "symbol": "user_answers_clarifying_questions"
+        },
+        {
+          "args": {},
+          "kind": "expectation",
+          "symbol": "gwt_draft_revised"
+        },
+        {
+          "args": {},
+          "kind": "expectation",
+          "symbol": "unresolved_ambiguity_tracked"
+        }
+      ],
+      "whens": [
+        {
+          "args": {},
+          "kind": "action",
+          "symbol": "interrogate_with_clarifying_questions"
+        }
+      ]
+    },
+    {
+      "givens": [
+        {
+          "args": {},
+          "kind": "fact",
+          "symbol": "revised_gwt_draft_exists"
+        }
+      ],
+      "imports": [],
+      "name": "normalization_loop_enforces_semantic_equivalence",
+      "thens": [
+        {
+          "args": {},
+          "kind": "expectation",
+          "symbol": "semantic_equivalence_uses_ir"
+        },
+        {
+          "args": {},
+          "kind": "expectation",
+          "symbol": "semantic_drift_blocks_progress"
+        },
+        {
+          "args": {},
+          "kind": "expectation",
+          "symbol": "interrogation_loop_continues_until_stable"
+        }
+      ],
+      "whens": [
+        {
+          "args": {},
+          "kind": "action",
+          "symbol": "compile_gwt_dal_roundtrip"
+        }
+      ]
+    },
+    {
+      "givens": [
+        {
+          "args": {},
+          "kind": "fact",
+          "symbol": "stable_ir_equivalence_reached"
+        }
+      ],
+      "imports": [],
+      "name": "approval_gate_establishes_shared_understanding",
+      "thens": [
+        {
+          "args": {},
+          "kind": "expectation",
+          "symbol": "user_approves_shared_behavioral_contract"
+        },
+        {
+          "args": {},
+          "kind": "expectation",
+          "symbol": "pipeline_consumes_approved_ir"
+        },
+        {
+          "args": {},
+          "kind": "expectation",
+          "symbol": "implementation_starts_after_approval_gate"
+        }
+      ],
+      "whens": [
+        {
+          "args": {},
+          "kind": "action",
+          "symbol": "review_canonical_outputs"
+        }
+      ]
+    }
+  ]
+}

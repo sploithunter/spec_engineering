@@ -292,6 +292,60 @@ vocabulary:
       default_args:
         concept: "current feature"
 
+    user_has_feature_idea:
+      args: []
+      gwt:
+        match:
+          - "^GIVEN a user has a feature idea described in natural language\\.$"
+        render: "GIVEN a user has a feature idea described in natural language."
+      dal:
+        render: "FACT user_has_feature_idea()."
+
+    no_approved_acceptance_spec:
+      args: []
+      gwt:
+        match:
+          - "^GIVEN no approved acceptance spec exists for that idea\\.$"
+        render: "GIVEN no approved acceptance spec exists for that idea."
+      dal:
+        render: "FACT no_approved_acceptance_spec()."
+
+    initial_gwt_draft_exists:
+      args: []
+      gwt:
+        match:
+          - "^GIVEN an initial GWT draft exists\\.$"
+        render: "GIVEN an initial GWT draft exists."
+      dal:
+        render: "FACT initial_gwt_draft_exists()."
+
+    draft_has_ambiguities:
+      args: []
+      gwt:
+        match:
+          - "^GIVEN the draft contains ambiguous terms, missing constraints, or open assumptions\\.$"
+        render: "GIVEN the draft contains ambiguous terms, missing constraints, or open assumptions."
+      dal:
+        render: "FACT draft_has_ambiguities()."
+
+    revised_gwt_draft_exists:
+      args: []
+      gwt:
+        match:
+          - "^GIVEN a revised GWT draft exists\\.$"
+        render: "GIVEN a revised GWT draft exists."
+      dal:
+        render: "FACT revised_gwt_draft_exists()."
+
+    stable_ir_equivalence_reached:
+      args: []
+      gwt:
+        match:
+          - "^GIVEN the GWT and DAL roundtrip reaches stable IR equivalence\\.$"
+        render: "GIVEN the GWT and DAL roundtrip reaches stable IR equivalence."
+      dal:
+        render: "FACT stable_ir_equivalence_reached()."
+
   actions:
     start_atdd_workflow:
       args:
@@ -408,6 +462,42 @@ vocabulary:
         - derive:
             feature_slug: feature_slug
             feature: "User authentication with email and password"
+
+    start_interrogation_atdd_workflow:
+      args: []
+      gwt:
+        match:
+          - "^WHEN the user starts the interrogation-driven ATDD workflow\\.$"
+        render: "WHEN the user starts the interrogation-driven ATDD workflow."
+      dal:
+        render: "DO start_interrogation_atdd_workflow()."
+
+    interrogate_with_clarifying_questions:
+      args: []
+      gwt:
+        match:
+          - "^WHEN the system interrogates the draft with targeted clarifying questions\\.$"
+        render: "WHEN the system interrogates the draft with targeted clarifying questions."
+      dal:
+        render: "DO interrogate_with_clarifying_questions()."
+
+    compile_gwt_dal_roundtrip:
+      args: []
+      gwt:
+        match:
+          - "^WHEN the draft is compiled from GWT to DAL and rendered back to canonical GWT\\.$"
+        render: "WHEN the draft is compiled from GWT to DAL and rendered back to canonical GWT."
+      dal:
+        render: "DO compile_gwt_dal_roundtrip()."
+
+    review_canonical_outputs:
+      args: []
+      gwt:
+        match:
+          - "^WHEN the user reviews the canonical GWT and DAL outputs\\.$"
+        render: "WHEN the user reviews the canonical GWT and DAL outputs."
+      dal:
+        render: "DO review_canonical_outputs()."
 
   expectations:
     file_exists:
@@ -642,3 +732,102 @@ vocabulary:
         render: "EXPECT phases_announced(phases=\"{phases}\")."
       default_args:
         phases: "spec writing, spec review, pipeline generation, implementation, post-implementation review"
+
+    initial_gwt_draft_proposed:
+      args: []
+      gwt:
+        match:
+          - "^THEN the system proposes an initial GWT draft for review\\.$"
+        render: "THEN the system proposes an initial GWT draft for review."
+      dal:
+        render: "EXPECT initial_gwt_draft_proposed()."
+
+    gwt_draft_is_hypothesis:
+      args: []
+      gwt:
+        match:
+          - "^THEN the draft is treated as a hypothesis, not a final contract\\.$"
+        render: "THEN the draft is treated as a hypothesis, not a final contract."
+      dal:
+        render: "EXPECT gwt_draft_is_hypothesis()."
+
+    user_answers_clarifying_questions:
+      args: []
+      gwt:
+        match:
+          - "^THEN the user can answer each question with domain intent\\.$"
+        render: "THEN the user can answer each question with domain intent."
+      dal:
+        render: "EXPECT user_answers_clarifying_questions()."
+
+    gwt_draft_revised:
+      args: []
+      gwt:
+        match:
+          - "^THEN the GWT draft is revised to incorporate the clarified intent\\.$"
+        render: "THEN the GWT draft is revised to incorporate the clarified intent."
+      dal:
+        render: "EXPECT gwt_draft_revised()."
+
+    unresolved_ambiguity_tracked:
+      args: []
+      gwt:
+        match:
+          - "^THEN unresolved ambiguity is explicitly tracked until answered\\.$"
+        render: "THEN unresolved ambiguity is explicitly tracked until answered."
+      dal:
+        render: "EXPECT unresolved_ambiguity_tracked()."
+
+    semantic_equivalence_uses_ir:
+      args: []
+      gwt:
+        match:
+          - "^THEN the workflow compares semantic equivalence using IR, not string equality\\.$"
+        render: "THEN the workflow compares semantic equivalence using IR, not string equality."
+      dal:
+        render: "EXPECT semantic_equivalence_uses_ir()."
+
+    semantic_drift_blocks_progress:
+      args: []
+      gwt:
+        match:
+          - "^THEN any semantic drift is reported as a blocking mismatch\\.$"
+        render: "THEN any semantic drift is reported as a blocking mismatch."
+      dal:
+        render: "EXPECT semantic_drift_blocks_progress()."
+
+    interrogation_loop_continues_until_stable:
+      args: []
+      gwt:
+        match:
+          - "^THEN the interrogation loop continues until the IR is stable across iterations\\.$"
+        render: "THEN the interrogation loop continues until the IR is stable across iterations."
+      dal:
+        render: "EXPECT interrogation_loop_continues_until_stable()."
+
+    user_approves_shared_behavioral_contract:
+      args: []
+      gwt:
+        match:
+          - "^THEN the user can approve the spec as the shared behavioral contract\\.$"
+        render: "THEN the user can approve the spec as the shared behavioral contract."
+      dal:
+        render: "EXPECT user_approves_shared_behavioral_contract()."
+
+    pipeline_consumes_approved_ir:
+      args: []
+      gwt:
+        match:
+          - "^THEN pipeline generation consumes the approved IR as the source of truth\\.$"
+        render: "THEN pipeline generation consumes the approved IR as the source of truth."
+      dal:
+        render: "EXPECT pipeline_consumes_approved_ir()."
+
+    implementation_starts_after_approval_gate:
+      args: []
+      gwt:
+        match:
+          - "^THEN implementation begins only after this approval gate is passed\\.$"
+        render: "THEN implementation begins only after this approval gate is passed."
+      dal:
+        render: "EXPECT implementation_starts_after_approval_gate()."
