@@ -1,0 +1,289 @@
+{
+  "owner": "sploithunter",
+  "generated_at_utc": "20260218T042448Z",
+  "limit": 27,
+  "workers": 8,
+  "summary": {
+    "total": 25,
+    "ok": 24,
+    "failed": 1,
+    "avg_alignment_recall": 0.057
+  },
+  "results": [
+    {
+      "repo": "pipelines",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "alignment_recall": 1.0,
+      "token_overlap": 3,
+      "readme_tokens": 3,
+      "slug": "pipelines-behavior-where-pipeline-experiments",
+      "error": ""
+    },
+    {
+      "repo": "spec_engineering",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "alignment_recall": 0.065,
+      "token_overlap": 22,
+      "readme_tokens": 340,
+      "slug": "spec-engineering-behavior-where-spec-engineering-workflow",
+      "error": ""
+    },
+    {
+      "repo": "harness-bench-leaderboard",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "alignment_recall": 0.047,
+      "token_overlap": 4,
+      "readme_tokens": 85,
+      "slug": "harness-bench-leaderboard-behavior-where-harness-bench-leaderboard-workflow",
+      "error": ""
+    },
+    {
+      "repo": "RBX-Template",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "alignment_recall": 0.044,
+      "token_overlap": 14,
+      "readme_tokens": 318,
+      "slug": "rbx-template-behavior-where-a-rojo-configuration-as-code-roblox-template-for-multiple-game-types",
+      "error": ""
+    },
+    {
+      "repo": "gameInterface",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "alignment_recall": 0.035,
+      "token_overlap": 5,
+      "readme_tokens": 141,
+      "slug": "gameinterface-behavior-where-gameinterface-workflow",
+      "error": ""
+    },
+    {
+      "repo": "claude-tmux-bridge",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "alignment_recall": 0.03,
+      "token_overlap": 5,
+      "readme_tokens": 165,
+      "slug": "claude-tmux-bridge-behavior-where-claude-tmux-bridge-workflow",
+      "error": ""
+    },
+    {
+      "repo": "artifact_window",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "alignment_recall": 0.026,
+      "token_overlap": 5,
+      "readme_tokens": 192,
+      "slug": "artifact-window-behavior-where-a-web-based-artifact-window-template",
+      "error": ""
+    },
+    {
+      "repo": "CIN-Requirements",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "alignment_recall": 0.023,
+      "token_overlap": 6,
+      "readme_tokens": 263,
+      "slug": "cin-requirements-behavior-where-automated-requirements-gathering-for-the-collaborative-ideation-network",
+      "error": ""
+    },
+    {
+      "repo": "CIN-Interface",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "alignment_recall": 0.021,
+      "token_overlap": 6,
+      "readme_tokens": 292,
+      "slug": "cin-interface-behavior-where-cin-interface-workflow",
+      "error": ""
+    },
+    {
+      "repo": "harnesss-bench",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "alignment_recall": 0.019,
+      "token_overlap": 4,
+      "readme_tokens": 206,
+      "slug": "harnesss-bench-behavior-where-harnesss-bench-workflow",
+      "error": ""
+    },
+    {
+      "repo": "coding-agent-bridge",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "alignment_recall": 0.018,
+      "token_overlap": 6,
+      "readme_tokens": 333,
+      "slug": "coding-agent-bridge-behavior-where-coding-agent-bridge-workflow",
+      "error": ""
+    },
+    {
+      "repo": "wiz",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "alignment_recall": 0.014,
+      "token_overlap": 9,
+      "readme_tokens": 621,
+      "slug": "wiz-behavior-where-wiz-workflow",
+      "error": ""
+    },
+    {
+      "repo": "VibeDDS",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "alignment_recall": 0.013,
+      "token_overlap": 2,
+      "readme_tokens": 152,
+      "slug": "vibedds-behavior-where-vibedds-workflow",
+      "error": ""
+    },
+    {
+      "repo": "harness-bench-ci-",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "alignment_recall": 0.012,
+      "token_overlap": 1,
+      "readme_tokens": 86,
+      "slug": "harness-bench-ci-behavior-where-harness-bench-ci-workflow",
+      "error": ""
+    },
+    {
+      "repo": "malwaremaps",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "alignment_recall": 0.004,
+      "token_overlap": 1,
+      "readme_tokens": 258,
+      "slug": "malwaremaps-behavior-where-malwaremaps-workflow",
+      "error": ""
+    },
+    {
+      "repo": "Genesis-LIB",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "alignment_recall": 0.0,
+      "token_overlap": 0,
+      "readme_tokens": 0,
+      "slug": "genesis-lib-behavior-where-genesis-lib-workflow",
+      "error": ""
+    },
+    {
+      "repo": "Min-Hash-Malware",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "alignment_recall": 0.0,
+      "token_overlap": 0,
+      "readme_tokens": 0,
+      "slug": "min-hash-malware-behavior-where-min-hash-malware-workflow",
+      "error": ""
+    },
+    {
+      "repo": "harness-bench-eval-",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "alignment_recall": 0.0,
+      "token_overlap": 0,
+      "readme_tokens": 0,
+      "slug": "harness-bench-eval-behavior-where-harness-bench-eval-workflow",
+      "error": ""
+    },
+    {
+      "repo": "harness-bench-submissions",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "alignment_recall": 0.0,
+      "token_overlap": 0,
+      "readme_tokens": 0,
+      "slug": "harness-bench-submissions-behavior-where-harness-bench-submissions-workflow",
+      "error": ""
+    },
+    {
+      "repo": "harness-bench-tasks-",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "alignment_recall": 0.0,
+      "token_overlap": 0,
+      "readme_tokens": 0,
+      "slug": "harness-bench-tasks-behavior-where-harness-bench-tasks-workflow",
+      "error": ""
+    },
+    {
+      "repo": "malwaregraphs",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "alignment_recall": 0.0,
+      "token_overlap": 0,
+      "readme_tokens": 0,
+      "slug": "malwaregraphs-behavior-where-malwaregraphs-workflow",
+      "error": ""
+    },
+    {
+      "repo": "ros2-jazzy-patches",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "alignment_recall": 0.0,
+      "token_overlap": 0,
+      "readme_tokens": 0,
+      "slug": "ros2-jazzy-patches-behavior-where-ros2-jazzy-patches-workflow",
+      "error": ""
+    },
+    {
+      "repo": "sploithunter.github.io",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "alignment_recall": 0.0,
+      "token_overlap": 0,
+      "readme_tokens": 0,
+      "slug": "sploithuntergithubio-behavior-where-sploithuntergithubio-workflow",
+      "error": ""
+    },
+    {
+      "repo": "telegram_control",
+      "status": "ok",
+      "iterations": 4,
+      "approved": true,
+      "alignment_recall": 0.0,
+      "token_overlap": 0,
+      "readme_tokens": 0,
+      "slug": "telegram-control-behavior-where-telegram-control-workflow",
+      "error": ""
+    },
+    {
+      "repo": "feedback-system-template",
+      "status": "failed",
+      "iterations": 0,
+      "approved": false,
+      "alignment_recall": 0.0,
+      "token_overlap": 0,
+      "readme_tokens": 376,
+      "slug": "",
+      "error": "Cannot approve: unresolved blocking questions remain"
+    }
+  ]
+}
