@@ -546,6 +546,7 @@ def interrogate_cmd(
     """Run one interrogation iteration and synchronize GWT<->DAL artifacts."""
     from spec_eng.interrogation import (
         InterrogationError,
+        is_ir_stable,
         interrogate_iteration,
         parse_answer_flags,
     )
@@ -572,6 +573,7 @@ def interrogate_cmd(
 
     click.echo(f"Session: {session.slug}")
     click.echo(f"Iteration: {session.iteration}")
+    click.echo(f"Stable IR: {'yes' if is_ir_stable(session) else 'no'}")
     click.echo(f"Approved: {'yes' if session.approved else 'no'}")
     if session.last_outputs:
         for name, path in sorted(session.last_outputs.items()):

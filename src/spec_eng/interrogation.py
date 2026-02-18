@@ -130,6 +130,12 @@ def build_questions(session: InterrogationSession) -> list[InterrogationQuestion
     return questions
 
 
+def is_ir_stable(session: InterrogationSession) -> bool:
+    if len(session.ir_hash_history) < 2:
+        return False
+    return session.ir_hash_history[-1] == session.ir_hash_history[-2]
+
+
 def detect_vague_terms(*texts: str) -> set[str]:
     hits: set[str] = set()
     for text in texts:
@@ -219,7 +225,7 @@ def interrogate_iteration(
 
     questions = build_questions(session)
 
-    stable = len(session.ir_hash_history) >= 2 and session.ir_hash_history[-1] == session.ir_hash_history[-2]
+    stable = is_ir_stable(session)
     if approve:
         if questions:
             raise InterrogationError("Cannot approve: unresolved blocking questions remain")

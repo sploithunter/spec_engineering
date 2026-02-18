@@ -12,6 +12,8 @@ from spec_eng.interrogation import (
     build_questions,
     detect_vague_terms,
     default_slug,
+    interrogate_iteration,
+    is_ir_stable,
     load_session,
     parse_answer_flags,
     render_draft_gwt,
@@ -94,3 +96,45 @@ def test_render_draft_gwt_updates_answer_driven_lines_deterministically() -> Non
     updated = render_draft_gwt(session)
     assert "explicit success behavior" in updated
     assert updated.count("explicit success behavior") == 1
+
+
+def _setup_project_with_vocab(tmp_path: Path) -> None:
+    (tmp_path / "specs").mkdir()
+    src_vocab = Path(__file__).resolve().parents[2] / "specs" / "vocab.yaml"
+    (tmp_path / "specs" / "vocab.yaml").write_text(src_vocab.read_text())
+
+
+def test_approval_blocked_until_questions_resolved_and_ir_stable(tmp_path: Path) -> None:
+    _setup_project_with_vocab(tmp_path)
+    idea = "User registration"
+
+    # Iteration 1: no answers, should not be stable and not approvable.
+    session, questions = interrogate_iteration(tmp_path, idea=idea, slug=None, answers={}, approve=False)
+    assert questions
+    assert not is_ir_stable(session)
+
+    with pytest.raises(InterrogationError, match="unresolved blocking questions"):
+        interrogate_iteration(tmp_path, idea=idea, slug=session.slug, answers={}, approve=True)
+
+    # Resolve blocking questions.
+    answers = {
+        "success_criteria": "user can register with email and password",
+        "failure_case": "duplicate email is rejected",
+        "constraints": "password must be at least 8 characters",
+    }
+    session, questions = interrogate_iteration(
+        tmp_path, idea=idea, slug=session.slug, answers=answers, approve=False
+    )
+    # only optional vague-language question may remain
+    assert all(not q.blocking for q in questions)
+
+    # Need one more identical compile cycle for stability.
+    session, questions = interrogate_iteration(
+        tmp_path, idea=idea, slug=session.slug, answers=answers, approve=False
+    )
+    assert is_ir_stable(session)
+
+    approved, _ = interrogate_iteration(
+        tmp_path, idea=idea, slug=session.slug, answers=answers, approve=True
+    )
+    assert approved.approved
