@@ -1,0 +1,36 @@
+"""E2E tests for interrogation CLI command."""
+
+from __future__ import annotations
+
+import shutil
+from pathlib import Path
+
+import pytest
+from click.testing import CliRunner
+
+from spec_eng.cli import cli
+
+pytestmark = pytest.mark.e2e
+
+
+def test_interrogate_creates_session_and_artifacts(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    # Initialize minimal project config
+    (tmp_path / ".spec-eng").mkdir()
+    (tmp_path / "specs").mkdir()
+    (tmp_path / ".spec-eng" / "config.json").write_text(
+        '{"version":"0.1.0","language":"python","framework":"pytest"}'
+    )
+
+    repo_root = Path(__file__).resolve().parents[2]
+    shutil.copy(repo_root / "specs" / "vocab.yaml", tmp_path / "specs" / "vocab.yaml")
+
+    monkeypatch.chdir(tmp_path)
+    runner = CliRunner()
+
+    result = runner.invoke(cli, ["interrogate", "--idea", "User registration"])
+
+    assert result.exit_code == 0, result.output
+    assert (tmp_path / "specs" / "user-registration.txt").exists()
+    assert (tmp_path / "specs" / "user-registration.dal").exists()
+    assert (tmp_path / ".spec-eng" / "interrogation" / "user-registration.json").exists()
+    assert "Open questions:" in result.output

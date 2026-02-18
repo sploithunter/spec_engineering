@@ -530,6 +530,59 @@ def spec_check_cmd(ctx: click.Context, input_path: str) -> None:
     ctx.exit(1)
 
 
+@cli.command("interrogate")
+@click.option("--idea", required=True, help="User idea to refine into acceptance specs")
+@click.option("--slug", default=None, help="Optional slug for session/spec files")
+@click.option("--answer", "answers", multiple=True, help="Answer question as key=value")
+@click.option("--approve", is_flag=True, default=False, help="Approve when stable and resolved")
+@click.pass_context
+def interrogate_cmd(
+    ctx: click.Context,
+    idea: str,
+    slug: str | None,
+    answers: tuple[str, ...],
+    approve: bool,
+) -> None:
+    """Run one interrogation iteration and synchronize GWT<->DAL artifacts."""
+    from spec_eng.interrogation import (
+        InterrogationError,
+        interrogate_iteration,
+        parse_answer_flags,
+    )
+
+    project_root = Path.cwd()
+    if not is_initialized(project_root):
+        click.echo("Error: Not initialized. Run `spec-eng init` first.")
+        ctx.exit(1)
+        return
+
+    try:
+        parsed_answers = parse_answer_flags(answers)
+        session, questions = interrogate_iteration(
+            project_root=project_root,
+            idea=idea,
+            slug=slug,
+            answers=parsed_answers,
+            approve=approve,
+        )
+    except InterrogationError as exc:
+        click.echo(f"Error: {exc}")
+        ctx.exit(1)
+        return
+
+    click.echo(f"Session: {session.slug}")
+    click.echo(f"Iteration: {session.iteration}")
+    click.echo(f"Approved: {'yes' if session.approved else 'no'}")
+    if session.last_outputs:
+        for name, path in sorted(session.last_outputs.items()):
+            click.echo(f"  {name}: {path}")
+
+    if questions:
+        click.echo("Open questions:")
+        for q in questions:
+            click.echo(f"  - {q.id}: {q.text}")
+
+
 @cli.command()
 @click.pass_context
 def generate(ctx: click.Context) -> None:
