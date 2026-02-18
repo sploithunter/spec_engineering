@@ -58,3 +58,22 @@
   1) sanitizing/normalizing repo descriptions into allowed vocab types,
   2) tuning overly broad leakage token checks,
   3) strengthening automated answer completion to clear blocking questions.
+
+## 2026-02-18 (3-Approach Train/Eval Experiment)
+- Implemented evaluator: `scripts/eval_semantic_approaches.py`
+  - Arms: `embedding-first`, `frame-first`, `hybrid-light`
+  - Uses repo-level split from `datasets/repo_pairs_split.json`
+- Ran training/evaluation over stable set (train=54, eval=14).
+- Reports:
+  - `reports/approach_eval_20260218T051448Z.json`
+  - `reports/approach_eval_20260218T051448Z.md`
+
+### Results (Avg Alignment Recall)
+- Embedding-first: train `0.048`, eval `0.053`
+- Frame-first: train `0.029`, eval `0.031`
+- Hybrid-light: train `0.036`, eval `0.038`
+
+### Interpretation
+- Embedding-first currently performs best on this metric.
+- Hybrid-light outperforms frame-first, but trails embedding-first.
+- All approaches reached stable approval in current deterministic loop; next discriminators should include richer semantic fidelity metrics beyond token recall.
