@@ -1,0 +1,126 @@
+; GENERATED FILE - DO NOT EDIT
+; canonicalized from DAL/IR using vocab.yaml
+
+;===============================================================
+; Start atdd creates dal and gwt specs.
+;===============================================================
+GIVEN the plugin "atdd" is installed.
+GIVEN the current project has a "specs/" directory.
+GIVEN file "specs/user-authentication.dal" does not exist.
+GIVEN file "specs/user-authentication.txt" does not exist.
+
+WHEN the user starts the ATDD workflow for "User authentication with email and password".
+
+THEN file "specs/user-authentication.dal" exists.
+THEN file "specs/user-authentication.txt" exists.
+THEN the DAL spec contains a scenario named "user_can_register_with_email_and_password".
+THEN the GWT spec includes the line GIVEN no registered users.
+THEN the DAL spec and the GWT spec describe the same outcomes.
+
+;===============================================================
+; Dal is authoritative and regenerates gwt.
+;===============================================================
+GIVEN file "specs/user-authentication.dal" exists.
+GIVEN file "specs/user-authentication.txt" exists.
+
+WHEN the DAL spec is changed to include a scenario describing add scenario describing user logout.
+
+THEN the GWT spec is regenerated from the DAL spec.
+THEN the regenerated GWT spec includes a scenario describing user logout.
+THEN the user is warned when directly editing the generated GWT spec.
+
+;===============================================================
+; Bootstrap gwt to draft dal.
+;===============================================================
+GIVEN file "specs/user-authentication.txt" exists.
+GIVEN file "specs/user-authentication.dal" does not exist.
+
+WHEN the user requests a DAL version of the existing GWT spec.
+
+THEN file "specs/user-authentication.dal" exists.
+THEN the DAL spec is marked as draft until a human approves it.
+THEN the DAL spec and the GWT spec describe the same outcomes.
+
+;===============================================================
+; Spec check flags service and repository leakage in gwt.
+;===============================================================
+GIVEN a GWT spec contains the line GIVEN the UserService has an empty userRepository.
+
+WHEN the user runs spec-check.
+
+THEN the spec-check report flags that line as containing implementation details.
+THEN the spec-check report suggests rewriting it as GIVEN no registered users.
+
+;===============================================================
+; Spec check flags endpoint and payload leakage in gwt.
+;===============================================================
+GIVEN a GWT spec contains the line WHEN a POST request is sent to /api/users with JSON body.
+
+WHEN the user runs spec-check.
+
+THEN the spec-check report flags that line as containing implementation details.
+THEN the spec-check report suggests rewriting it as WHEN a user registers with email "bob@example.com" and password "secret123".
+
+;===============================================================
+; Spec check flags implementation leakage in dal.
+;===============================================================
+GIVEN a DAL spec contains the line FACT user_service_has_empty_repository.
+
+WHEN the user runs spec-check.
+
+THEN the spec-check report flags that line as containing implementation details.
+THEN the spec-check report suggests rewriting it as FACT no_registered_users.
+
+;===============================================================
+; Dal supports scenario composition via import.
+;===============================================================
+GIVEN a DAL spec defines a scenario named "user_can_register_with_email_and_password".
+GIVEN a DAL spec defines a scenario named "user_can_log_in_after_registration".
+GIVEN the "user_can_log_in_after_registration" scenario references the registration scenario as a prerequisite.
+
+WHEN the specs are compiled.
+
+THEN the compiled representation for "user_can_log_in_after_registration" includes the preconditions implied by registration.
+THEN the compiled representation does not require duplicating prerequisite steps by hand.
+
+;===============================================================
+; Pipeline generation creates runnable acceptance tests from dal.
+;===============================================================
+GIVEN file "specs/user-authentication.dal" exists.
+GIVEN the project has no acceptance test pipeline.
+
+WHEN the user generates the acceptance test pipeline.
+
+THEN an acceptance test pipeline exists that can translate specs into runnable acceptance tests.
+THEN runnable acceptance tests are generated from the DAL spec.
+THEN running the acceptance tests fails until the feature is implemented.
+
+;===============================================================
+; Hooks warn when writing code without specs.
+;===============================================================
+GIVEN there is no acceptance spec describing password reset.
+
+WHEN the user attempts to write code for password reset.
+
+THEN the user receives a warning to write acceptance specs before writing code.
+
+;===============================================================
+; Stop hook reminds to verify both test streams.
+;===============================================================
+GIVEN acceptance tests exist for current feature.
+GIVEN unit tests exist for current feature.
+
+WHEN the user stops an implementation session for current feature.
+
+THEN the user is reminded to verify that both acceptance tests and unit tests pass.
+
+;===============================================================
+; Atdd team workflow creates roles and phases.
+;===============================================================
+
+WHEN the user starts the ATDD team workflow.
+
+THEN a spec-writer role exists.
+THEN a implementer role exists.
+THEN a reviewer role exists.
+THEN the team is instructed to write specs, review specs, generate the pipeline, implement with TDD, and review again.

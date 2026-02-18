@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
+import json
 import re
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 import click
 
@@ -16,6 +18,9 @@ from spec_eng.config import (
     save_config,
 )
 from spec_eng.models import Gap, ProjectConfig
+
+if TYPE_CHECKING:
+    from spec_eng.models import Scenario
 
 
 @click.group()
@@ -458,12 +463,79 @@ def parse_cmd(ctx: click.Context, inspect: bool) -> None:
                 click.echo(f"    THEN {t['text']}.")
 
 
+@cli.command("spec-compile")
+@click.option("--in", "input_path", required=True, type=click.Path(exists=True))
+@click.pass_context
+def spec_compile_cmd(ctx: click.Context, input_path: str) -> None:
+    """Compile .txt/.dal specs into canonical DAL/GWT and IR artifacts."""
+    from spec_eng.dual_spec import DualSpecError, compile_spec, load_vocab
+
+    project_root = Path.cwd()
+    vocab_path = project_root / "specs" / "vocab.yaml"
+    source = Path(input_path)
+
+    if not vocab_path.exists():
+        click.echo(f"Error: Missing vocabulary file: {vocab_path}")
+        ctx.exit(1)
+        return
+
+    try:
+        vocab = load_vocab(vocab_path)
+        outputs = compile_spec(source, vocab, project_root=project_root)
+    except DualSpecError as exc:
+        click.echo(f"Error: {exc}")
+        ctx.exit(1)
+        return
+
+    click.echo(f"Compiled: {source}")
+    for name, path in outputs.items():
+        click.echo(f"  {name}: {path}")
+
+
+@cli.command("spec-check")
+@click.option("--in", "input_path", required=True, type=click.Path(exists=True))
+@click.pass_context
+def spec_check_cmd(ctx: click.Context, input_path: str) -> None:
+    """Run vocab-driven implementation leakage checks on specs."""
+    from spec_eng.dual_spec import DualSpecError, check_specs, load_vocab
+
+    project_root = Path.cwd()
+    vocab_path = project_root / "specs" / "vocab.yaml"
+    target = Path(input_path)
+
+    if not vocab_path.exists():
+        click.echo(f"Error: Missing vocabulary file: {vocab_path}")
+        ctx.exit(1)
+        return
+
+    try:
+        vocab = load_vocab(vocab_path)
+        violations = check_specs(target, vocab)
+    except DualSpecError as exc:
+        click.echo(f"Error: {exc}")
+        ctx.exit(1)
+        return
+
+    if not violations:
+        click.echo("No spec-check violations found.")
+        return
+
+    for violation in violations:
+        click.echo(
+            f"{violation.file}:{violation.line}:{violation.column} "
+            f"[{violation.kind}] {violation.message}"
+        )
+        click.echo(f"  Suggestion: {violation.suggestion}")
+
+    ctx.exit(1)
+
+
 @cli.command()
 @click.pass_context
 def generate(ctx: click.Context) -> None:
     """Generate test files from parsed GWT specs."""
     from spec_eng.generator import generate_tests
-    from spec_eng.parser import parse_gwt_file
+    from spec_eng.models import ParseResult
 
     project_root = Path.cwd()
     if not is_initialized(project_root):
@@ -471,8 +543,19 @@ def generate(ctx: click.Context) -> None:
         ctx.exit(1)
         return
 
-    from spec_eng.models import ParseResult
+    ir_scenarios = _load_scenarios_from_compiled_ir(project_root)
+    if ir_scenarios:
+        result = ParseResult(scenarios=ir_scenarios)
+        generated = generate_tests(project_root, result)
+        generated_dir = project_root / ".spec-eng" / "generated"
+        click.echo(
+            f"Generated {len(generated)} test file(s) from IR in {generated_dir}/"
+        )
+        for name in sorted(generated):
+            click.echo(f"  {name}")
+        return
 
+    from spec_eng.parser import parse_gwt_file
     specs_dir = project_root / "specs"
     all_scenarios: list = []
     for gwt_file in sorted(specs_dir.glob("*.gwt")):
@@ -709,3 +792,49 @@ def _slugify(text: str) -> str:
     slug = re.sub(r"[\s]+", "-", slug)
     slug = slug.strip("-")
     return slug
+
+
+def _load_scenarios_from_compiled_ir(project_root: Path) -> list[Scenario]:
+    """Load compiled IR artifacts and project them into generator scenarios."""
+    from spec_eng.models import Clause, Scenario
+
+    ir_dir = project_root / "acceptance-pipeline" / "ir"
+    if not ir_dir.exists():
+        return []
+
+    scenarios: list[Scenario] = []
+    for ir_file in sorted(ir_dir.glob("*.json")):
+        payload = json.loads(ir_file.read_text())
+        for scenario in payload.get("scenarios", []):
+            givens = [
+                Clause("GIVEN", _step_to_text(step), idx + 1)
+                for idx, step in enumerate(scenario.get("givens", []))
+            ]
+            whens = [
+                Clause("WHEN", _step_to_text(step), idx + 1)
+                for idx, step in enumerate(scenario.get("whens", []))
+            ]
+            thens = [
+                Clause("THEN", _step_to_text(step), idx + 1)
+                for idx, step in enumerate(scenario.get("thens", []))
+            ]
+            scenarios.append(
+                Scenario(
+                    title=scenario.get("name", "compiled scenario"),
+                    givens=givens,
+                    whens=whens,
+                    thens=thens,
+                    source_file=str(ir_file),
+                    line_number=1,
+                )
+            )
+    return scenarios
+
+
+def _step_to_text(step: dict[str, object]) -> str:
+    symbol = str(step.get("symbol", "step"))
+    args = step.get("args", {})
+    if isinstance(args, dict) and args:
+        arg_text = ", ".join(f"{k}={v}" for k, v in sorted(args.items()))
+        return f"{symbol}({arg_text})"
+    return f"{symbol}()"

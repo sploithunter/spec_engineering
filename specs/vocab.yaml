@@ -1,0 +1,644 @@
+version: 0.1
+dialect: atdd-dal-v1
+
+# This vocabulary file defines a controlled language for:
+#  - Human-authored GWT statements (source input or review artifact)
+#  - Machine-oriented DAL statements (authoritative, typed-ish)
+#
+# A compiler can use this file to:
+#  1) Parse GWT steps into canonical symbols + typed arguments
+#  2) Emit DAL from those symbols
+#  3) Render a canonical GWT view from DAL
+#  4) Compare canonical GWT to human-authored GWT (round-trip validation)
+
+gwt:
+  keywords:
+    GIVEN: GIVEN
+    WHEN: WHEN
+    THEN: THEN
+    AND: AND
+  statement_terminator: "."
+  style:
+    require_trailing_period: true
+    require_blank_line_between_scenarios: true
+    quote_strings_with: "\""
+
+dal:
+  keywords:
+    - FEATURE
+    - SCENARIO
+    - FACT
+    - DO
+    - EXPECT
+    - IMPORT
+  statement_terminator: "."
+  style:
+    require_trailing_period: true
+    require_snake_case_scenario_names: true
+
+# Derivations let the compiler infer common file paths from a feature name.
+# These are critical for GWT -> DAL conversion, because human GWT often omits file names.
+derivations:
+  feature_slug:
+    transform: slugify_kebab
+    example:
+      input: "User authentication with email and password"
+      output: "user-authentication"
+  dal_spec_path:
+    format: "specs/{feature_slug}.dal"
+  gwt_spec_path:
+    format: "specs/{feature_slug}.txt"
+
+defaults:
+  leaky_gwt_path: "specs/leaky-gwt.txt"
+  leaky_dal_path: "specs/leaky-dal.dal"
+  current_concept: "current feature"
+
+types:
+  plugin_name:
+    kind: string
+    pattern: "^[A-Za-z0-9._-]+$"
+  path:
+    kind: string
+    pattern: "^(?:[A-Za-z0-9._-]+/)*[A-Za-z0-9._-]+(?:\\.[A-Za-z0-9._-]+)?/?$"
+  feature:
+    kind: string
+    pattern: "^.{1,200}$"
+  scenario_name:
+    kind: string
+    pattern: "^[a-z][a-z0-9_]{0,80}$"
+  concept:
+    kind: string
+    pattern: "^.{1,200}$"
+  text:
+    kind: string
+    pattern: "^.*$"
+  reason:
+    kind: enum
+    values:
+      - gwt_is_generated_do_not_edit
+      - write_acceptance_specs_first
+      - implementation_leakage
+  phases:
+    kind: string
+    pattern: "^.{1,300}$"
+
+canonicalization:
+  normalize_whitespace: true
+  normalize_quotes: true
+  # Optional synonym rewrites that keep human phrasing flexible while preserving canonical meaning.
+  gwt_synonyms:
+    - from: "GIVEN there are no registered users."
+      to: "GIVEN no registered users."
+    - from: "THEN the DAL spec and the GWT spec describe the same outcomes."
+      to: "THEN the DAL spec and the GWT spec describe the same outcomes."
+    - from: "THEN the user \"bob@example.com\" can log in."
+      to: "THEN the user \"bob@example.com\" can log in."
+
+lints:
+  implementation_leakage:
+    banned_tokens:
+      - service
+      - repository
+      - controller
+      - dao
+      - orm
+      - sql
+      - table
+      - schema
+      - migration
+      - endpoint
+      - http
+      - json
+      - grpc
+      - kafka
+      - redis
+      - postgres
+      - mysql
+      - sqlite
+      - fastapi
+      - flask
+      - express
+      - rails
+      - spring
+      - class
+      - method
+      - function
+    banned_regex:
+      - "(?i)\\bGET\\b|\\bPOST\\b|\\bPUT\\b|\\bPATCH\\b|\\bDELETE\\b"
+      - "(?i)\\bHTTP\\s*[0-9]{3}\\b"
+      - "/api/[A-Za-z0-9_\\-/]+"
+    allowed_contextual_tokens:
+      - specs
+      - acceptance
+      - unit
+      - pipeline
+      - parser
+      - generator
+      - ir
+
+vocabulary:
+  facts:
+    plugin_installed:
+      args:
+        - {name: name, type: plugin_name}
+      gwt:
+        match:
+          - "^GIVEN the atdd plugin is installed\\.$"
+          - "^GIVEN the plugin \"(?P<name>[^\"]+)\" is installed\\.$"
+        render: "GIVEN the plugin \"{name}\" is installed."
+      dal:
+        render: "FACT plugin_installed(name=\"{name}\")."
+
+    directory_exists:
+      args:
+        - {name: path, type: path}
+      gwt:
+        match:
+          - "^GIVEN the current project has a \"(?P<path>[^\"]+)\" directory\\.$"
+          - "^GIVEN directory \"(?P<path>[^\"]+)\" exists\\.$"
+        render: "GIVEN the current project has a \"{path}\" directory."
+      dal:
+        render: "FACT directory_exists(path=\"{path}\")."
+
+    file_exists:
+      args:
+        - {name: path, type: path}
+      gwt:
+        match:
+          - "^GIVEN a (?P<label>DAL|GWT) spec file exists at \"(?P<path>[^\"]+)\"\\.$"
+          - "^GIVEN file \"(?P<path>[^\"]+)\" exists\\.$"
+        render: "GIVEN file \"{path}\" exists."
+      dal:
+        render: "FACT file_exists(path=\"{path}\")."
+
+    file_missing:
+      args:
+        - {name: path, type: path}
+      gwt:
+        match:
+          - "^GIVEN file \"(?P<path>[^\"]+)\" does not exist\\.$"
+          - "^GIVEN there is no existing spec for \"(?P<feature>[^\"]+)\"\\.$"
+        render: "GIVEN file \"{path}\" does not exist."
+      dal:
+        render: "FACT file_missing(path=\"{path}\")."
+      derive_args_from_context:
+        - when_match_group_present: feature
+          derive:
+            feature_slug: feature_slug
+            path: dal_spec_path
+
+    gwt_contains_line:
+      args:
+        - {name: file, type: path}
+        - {name: line, type: text}
+      gwt:
+        match:
+          - "^GIVEN a GWT spec contains the line (?P<line>.+)$"
+          - "^GIVEN a GWT spec includes the line (?P<line>.+)$"
+        render: "GIVEN a GWT spec contains the line {line}"
+      dal:
+        render: "FACT gwt_contains_line(file=\"{file}\", line=\"{line}\")."
+      default_args:
+        file: "specs/leaky-gwt.txt"
+
+    dal_contains_line:
+      args:
+        - {name: file, type: path}
+        - {name: line, type: text}
+      gwt:
+        match:
+          - "^GIVEN a DAL spec contains the line (?P<line>.+)$"
+        render: "GIVEN a DAL spec contains the line {line}"
+      dal:
+        render: "FACT dal_contains_line(file=\"{file}\", line=\"{line}\")."
+      default_args:
+        file: "specs/leaky-dal.dal"
+
+    dal_contains_scenario:
+      args:
+        - {name: file, type: path}
+        - {name: scenario, type: scenario_name}
+      gwt:
+        match:
+          - "^GIVEN a DAL spec defines a scenario named \"(?P<scenario>[^\"]+)\"\\.$"
+        render: "GIVEN a DAL spec defines a scenario named \"{scenario}\"."
+      dal:
+        render: "FACT dal_contains_scenario(file=\"{file}\", scenario=\"{scenario}\")."
+      derive_args_from_context:
+        - derive:
+            feature_slug: feature_slug
+            file: dal_spec_path
+
+    dal_scenario_imports:
+      args:
+        - {name: file, type: path}
+        - {name: scenario, type: scenario_name}
+        - {name: imported_scenario, type: scenario_name}
+      gwt:
+        match:
+          - "^GIVEN the \"(?P<scenario>[^\"]+)\" scenario references the registration scenario as a prerequisite\\.$"
+        render: "GIVEN the \"{scenario}\" scenario references the registration scenario as a prerequisite."
+      dal:
+        render: "FACT dal_scenario_imports(file=\"{file}\", scenario=\"{scenario}\", imported_scenario=\"{imported_scenario}\")."
+      derive_args_from_context:
+        - derive:
+            feature_slug: feature_slug
+            file: dal_spec_path
+            imported_scenario: "user_can_register_with_email_and_password"
+
+    acceptance_pipeline_missing:
+      args: []
+      gwt:
+        match:
+          - "^GIVEN the project has no acceptance test pipeline\\.$"
+        render: "GIVEN the project has no acceptance test pipeline."
+      dal:
+        render: "FACT acceptance_pipeline_missing()."
+
+    no_acceptance_spec_exists:
+      args:
+        - {name: concept, type: concept}
+      gwt:
+        match:
+          - "^GIVEN there is no acceptance spec describing (?P<concept>.+)\\.$"
+        render: "GIVEN there is no acceptance spec describing {concept}."
+      dal:
+        render: "FACT no_acceptance_spec_exists(concept=\"{concept}\")."
+
+    acceptance_tests_exist:
+      args:
+        - {name: concept, type: concept}
+      gwt:
+        match:
+          - "^GIVEN acceptance tests exist for the current feature\\.$"
+          - "^GIVEN acceptance tests exist for (?P<concept>.+)\\.$"
+        render: "GIVEN acceptance tests exist for {concept}."
+      dal:
+        render: "FACT acceptance_tests_exist(concept=\"{concept}\")."
+      default_args:
+        concept: "current feature"
+
+    unit_tests_exist:
+      args:
+        - {name: concept, type: concept}
+      gwt:
+        match:
+          - "^GIVEN unit tests exist for the current feature\\.$"
+          - "^GIVEN unit tests exist for (?P<concept>.+)\\.$"
+        render: "GIVEN unit tests exist for {concept}."
+      dal:
+        render: "FACT unit_tests_exist(concept=\"{concept}\")."
+      default_args:
+        concept: "current feature"
+
+  actions:
+    start_atdd_workflow:
+      args:
+        - {name: feature, type: feature}
+      gwt:
+        match:
+          - "^WHEN the user starts the ATDD workflow for \"(?P<feature>[^\"]+)\"\\.$"
+        render: "WHEN the user starts the ATDD workflow for \"{feature}\"."
+      dal:
+        render: "DO start_atdd_workflow(feature=\"{feature}\")."
+
+    update_dal_spec:
+      args:
+        - {name: file, type: path}
+        - {name: change, type: text}
+      gwt:
+        match:
+          - "^WHEN the DAL spec is changed to include a scenario describing (?P<change>.+)\\.$"
+        render: "WHEN the DAL spec is changed to include a scenario describing {change}."
+      dal:
+        render: "DO update_dal_spec(file=\"{file}\", change=\"{change}\")."
+      derive_args_from_context:
+        - derive:
+            feature_slug: feature_slug
+            file: dal_spec_path
+
+    derive_dal_from_gwt:
+      args:
+        - {name: gwt, type: path}
+      gwt:
+        match:
+          - "^WHEN the user requests a DAL version of the existing GWT spec\\.$"
+        render: "WHEN the user requests a DAL version of the existing GWT spec."
+      dal:
+        render: "DO derive_dal_from_gwt(gwt=\"{gwt}\")."
+      derive_args_from_context:
+        - derive:
+            feature_slug: feature_slug
+            gwt: gwt_spec_path
+
+    run_spec_check:
+      args:
+        - {name: target, type: path}
+      gwt:
+        match:
+          - "^WHEN the user runs spec-check\\.$"
+        render: "WHEN the user runs spec-check."
+      dal:
+        render: "DO run_spec_check(target=\"{target}\")."
+      default_args:
+        target: "specs/"
+
+    compile_specs:
+      args:
+        - {name: source, type: path}
+      gwt:
+        match:
+          - "^WHEN the specs are compiled\\.$"
+        render: "WHEN the specs are compiled."
+      dal:
+        render: "DO compile_specs(source=\"{source}\")."
+      derive_args_from_context:
+        - derive:
+            feature_slug: feature_slug
+            source: dal_spec_path
+
+    generate_acceptance_test_pipeline:
+      args:
+        - {name: from, type: path}
+      gwt:
+        match:
+          - "^WHEN the user generates the acceptance test pipeline\\.$"
+        render: "WHEN the user generates the acceptance test pipeline."
+      dal:
+        render: "DO generate_acceptance_test_pipeline(from=\"{from}\")."
+      derive_args_from_context:
+        - derive:
+            feature_slug: feature_slug
+            from: dal_spec_path
+
+    attempt_to_write_code:
+      args:
+        - {name: concept, type: concept}
+      gwt:
+        match:
+          - "^WHEN the user attempts to write code for (?P<concept>.+)\\.$"
+        render: "WHEN the user attempts to write code for {concept}."
+      dal:
+        render: "DO attempt_to_write_code(concept=\"{concept}\")."
+
+    stop_implementation_session:
+      args:
+        - {name: concept, type: concept}
+      gwt:
+        match:
+          - "^WHEN the user stops an implementation session for the current feature\\.$"
+          - "^WHEN the user stops an implementation session for (?P<concept>.+)\\.$"
+        render: "WHEN the user stops an implementation session for {concept}."
+      dal:
+        render: "DO stop_implementation_session(concept=\"{concept}\")."
+      default_args:
+        concept: "current feature"
+
+    start_atdd_team_workflow:
+      args:
+        - {name: feature, type: feature}
+      gwt:
+        match:
+          - "^WHEN the user starts the ATDD team workflow\\.$"
+        render: "WHEN the user starts the ATDD team workflow."
+      dal:
+        render: "DO start_atdd_team_workflow(feature=\"{feature}\")."
+      derive_args_from_context:
+        - derive:
+            feature_slug: feature_slug
+            feature: "User authentication with email and password"
+
+  expectations:
+    file_exists:
+      args:
+        - {name: path, type: path}
+      gwt:
+        match:
+          - "^THEN a (?P<label>DAL|GWT) spec file exists at \"(?P<path>[^\"]+)\"\\.$"
+          - "^THEN a DAL spec file exists at \"(?P<path>[^\"]+)\"\\.$"
+          - "^THEN a GWT spec file exists at \"(?P<path>[^\"]+)\"\\.$"
+        render: "THEN file \"{path}\" exists."
+      dal:
+        render: "EXPECT file_exists(path=\"{path}\")."
+
+    dal_contains_scenario:
+      args:
+        - {name: file, type: path}
+        - {name: scenario, type: scenario_name}
+      gwt:
+        match:
+          - "^THEN the DAL spec contains a scenario named \"(?P<scenario>[^\"]+)\"\\.$"
+        render: "THEN the DAL spec contains a scenario named \"{scenario}\"."
+      dal:
+        render: "EXPECT dal_contains_scenario(file=\"{file}\", scenario=\"{scenario}\")."
+      derive_args_from_context:
+        - derive:
+            feature_slug: feature_slug
+            file: dal_spec_path
+
+    gwt_contains_line:
+      args:
+        - {name: file, type: path}
+        - {name: line, type: text}
+      gwt:
+        match:
+          - "^THEN the GWT spec includes the line (?P<line>.+)$"
+        render: "THEN the GWT spec includes the line {line}"
+      dal:
+        render: "EXPECT gwt_contains_line(file=\"{file}\", line=\"{line}\")."
+      derive_args_from_context:
+        - derive:
+            feature_slug: feature_slug
+            file: gwt_spec_path
+
+    specs_equivalent:
+      args:
+        - {name: dal, type: path}
+        - {name: gwt, type: path}
+      gwt:
+        match:
+          - "^THEN the DAL spec and the GWT spec describe the same outcomes\\.$"
+        render: "THEN the DAL spec and the GWT spec describe the same outcomes."
+      dal:
+        render: "EXPECT specs_equivalent(dal=\"{dal}\", gwt=\"{gwt}\")."
+      derive_args_from_context:
+        - derive:
+            feature_slug: feature_slug
+            dal: dal_spec_path
+            gwt: gwt_spec_path
+
+    gwt_regenerated_from_dal:
+      args:
+        - {name: dal, type: path}
+        - {name: gwt, type: path}
+      gwt:
+        match:
+          - "^THEN the GWT spec is regenerated from the DAL spec\\.$"
+        render: "THEN the GWT spec is regenerated from the DAL spec."
+      dal:
+        render: "EXPECT gwt_regenerated_from_dal(dal=\"{dal}\", gwt=\"{gwt}\")."
+      derive_args_from_context:
+        - derive:
+            feature_slug: feature_slug
+            dal: dal_spec_path
+            gwt: gwt_spec_path
+
+    gwt_contains_concept:
+      args:
+        - {name: file, type: path}
+        - {name: concept, type: concept}
+      gwt:
+        match:
+          - "^THEN the regenerated GWT spec includes a scenario describing (?P<concept>.+)\\.$"
+        render: "THEN the regenerated GWT spec includes a scenario describing {concept}."
+      dal:
+        render: "EXPECT gwt_contains_concept(file=\"{file}\", concept=\"{concept}\")."
+      derive_args_from_context:
+        - derive:
+            feature_slug: feature_slug
+            file: gwt_spec_path
+
+    warning_shown:
+      args:
+        - {name: reason, type: reason}
+      gwt:
+        match:
+          - "^THEN the user is warned when directly editing the generated GWT spec\\.$"
+          - "^THEN the user receives a warning to write acceptance specs before writing code\\.$"
+        render: "THEN a warning is shown."
+      dal:
+        render: "EXPECT warning_shown(reason=\"{reason}\")."
+      reason_by_match:
+        - match_index: 0
+          reason: gwt_is_generated_do_not_edit
+        - match_index: 1
+          reason: write_acceptance_specs_first
+
+    dal_marked_draft:
+      args:
+        - {name: file, type: path}
+      gwt:
+        match:
+          - "^THEN the DAL spec is marked as draft until a human approves it\\.$"
+        render: "THEN the DAL spec is marked as draft until a human approves it."
+      dal:
+        render: "EXPECT dal_marked_draft(file=\"{file}\")."
+      derive_args_from_context:
+        - derive:
+            feature_slug: feature_slug
+            file: dal_spec_path
+
+    spec_check_reports_violation:
+      args:
+        - {name: file, type: path}
+        - {name: line_contains, type: text}
+      gwt:
+        match:
+          - "^THEN the spec-check report flags that line as containing implementation details\\.$"
+        render: "THEN the spec-check report flags that line as containing implementation details."
+      dal:
+        render: "EXPECT spec_check_reports_violation(file=\"{file}\", line_contains=\"{line_contains}\")."
+      default_args:
+        file: "specs/leaky-gwt.txt"
+        line_contains: "implementation details"
+
+    spec_check_suggests_rewrite:
+      args:
+        - {name: bad_line_contains, type: text}
+        - {name: suggestion_contains, type: text}
+      gwt:
+        match:
+          - "^THEN the spec-check report suggests rewriting it as (?P<suggestion>.+)$"
+        render: "THEN the spec-check report suggests rewriting it as {suggestion}"
+      dal:
+        render: "EXPECT spec_check_suggests_rewrite(bad_line_contains=\"{bad_line_contains}\", suggestion_contains=\"{suggestion_contains}\")."
+      default_args:
+        bad_line_contains: "implementation detail"
+
+    compiled_ir_includes_imported_preconditions:
+      args:
+        - {name: scenario, type: scenario_name}
+        - {name: imported_scenario, type: scenario_name}
+      gwt:
+        match:
+          - "^THEN the compiled representation for \"(?P<scenario>[^\"]+)\" includes the preconditions implied by registration\\.$"
+        render: "THEN the compiled representation includes imported preconditions."
+      dal:
+        render: "EXPECT compiled_ir_includes_imported_preconditions(scenario=\"{scenario}\", imported_scenario=\"{imported_scenario}\")."
+      default_args:
+        imported_scenario: "user_can_register_with_email_and_password"
+
+    compiled_ir_does_not_duplicate_steps:
+      args:
+        - {name: scenario, type: scenario_name}
+        - {name: duplicated_scenario, type: scenario_name}
+      gwt:
+        match:
+          - "^THEN the compiled representation does not require duplicating the registration steps by hand\\.$"
+        render: "THEN the compiled representation does not require duplicating prerequisite steps by hand."
+      dal:
+        render: "EXPECT compiled_ir_does_not_duplicate_steps(scenario=\"{scenario}\", duplicated_scenario=\"{duplicated_scenario}\")."
+      default_args:
+        duplicated_scenario: "user_can_register_with_email_and_password"
+
+    acceptance_pipeline_exists:
+      args: []
+      gwt:
+        match:
+          - "^THEN an acceptance test pipeline exists that can translate specs into runnable acceptance tests\\.$"
+        render: "THEN an acceptance test pipeline exists that can translate specs into runnable acceptance tests."
+      dal:
+        render: "EXPECT acceptance_pipeline_exists()."
+
+    runnable_acceptance_tests_generated:
+      args: []
+      gwt:
+        match:
+          - "^THEN runnable acceptance tests are generated from the DAL spec\\.$"
+        render: "THEN runnable acceptance tests are generated from the DAL spec."
+      dal:
+        render: "EXPECT runnable_acceptance_tests_generated()."
+
+    running_acceptance_tests_fails_until_implemented:
+      args: []
+      gwt:
+        match:
+          - "^THEN running the acceptance tests fails until the feature is implemented\\.$"
+        render: "THEN running the acceptance tests fails until the feature is implemented."
+      dal:
+        render: "EXPECT running_acceptance_tests_fails_until_implemented()."
+
+    reminder_shown:
+      args:
+        - {name: message_contains, type: text}
+      gwt:
+        match:
+          - "^THEN the user is reminded to verify that both acceptance tests and unit tests pass\\.$"
+        render: "THEN the user is reminded to verify that both acceptance tests and unit tests pass."
+      dal:
+        render: "EXPECT reminder_shown(message_contains=\"{message_contains}\")."
+      default_args:
+        message_contains: "verify both acceptance tests and unit tests pass"
+
+    role_exists:
+      args:
+        - {name: name, type: text}
+      gwt:
+        match:
+          - "^THEN a (?P<name>spec writer|implementer|reviewer) role exists\\.$"
+        render: "THEN a {name} role exists."
+      dal:
+        render: "EXPECT role_exists(name=\"{name}\")."
+
+    phases_announced:
+      args:
+        - {name: phases, type: phases}
+      gwt:
+        match:
+          - "^THEN the team is instructed to write specs, review specs, generate the pipeline, implement with TDD, and review again\\.$"
+        render: "THEN the team is instructed to write specs, review specs, generate the pipeline, implement with TDD, and review again."
+      dal:
+        render: "EXPECT phases_announced(phases=\"{phases}\")."
+      default_args:
+        phases: "spec writing, spec review, pipeline generation, implementation, post-implementation review"

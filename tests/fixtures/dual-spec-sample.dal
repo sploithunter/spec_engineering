@@ -1,0 +1,11 @@
+FEATURE dual_spec_sample.
+
+SCENARIO create_specs.
+
+FACT plugin_installed(name="atdd").
+FACT directory_exists(path="specs/").
+
+DO start_atdd_workflow(feature="User authentication with email and password").
+
+EXPECT file_exists(path="specs/user-authentication.dal").
+EXPECT file_exists(path="specs/user-authentication.txt").

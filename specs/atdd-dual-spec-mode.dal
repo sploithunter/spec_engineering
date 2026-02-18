@@ -1,0 +1,170 @@
+;===============================================================
+; DAL reference spec for the atdd plugin dual-spec workflow.
+;
+; DAL intent:
+; - Authoritative, structured contract for behavior.
+; - Compiles into:
+;   (1) generated GWT (human-readable review format),
+;   (2) IR used to generate runnable acceptance tests.
+;
+; Syntax rules:
+; - Statements end with periods.
+; - Keywords: FEATURE, SCENARIO, FACT, DO, EXPECT.
+; - Optional composition keyword: IMPORT.
+;===============================================================
+
+FEATURE atdd_dual_spec_mode.
+
+
+SCENARIO start_atdd_creates_dal_and_gwt_specs.
+
+FACT plugin_installed(name="atdd").
+FACT directory_exists(path="specs/").
+FACT file_missing(path="specs/user-authentication.dal").
+FACT file_missing(path="specs/user-authentication.txt").
+
+DO start_atdd_workflow(feature="User authentication with email and password").
+
+EXPECT file_exists(path="specs/user-authentication.dal").
+EXPECT file_exists(path="specs/user-authentication.txt").
+EXPECT dal_contains_scenario(file="specs/user-authentication.dal", scenario="user_can_register_with_email_and_password").
+EXPECT gwt_contains_line(file="specs/user-authentication.txt", line="GIVEN no registered users.").
+EXPECT specs_equivalent(dal="specs/user-authentication.dal", gwt="specs/user-authentication.txt").
+
+
+SCENARIO dal_is_authoritative_and_regenerates_gwt.
+
+FACT file_exists(path="specs/user-authentication.dal").
+FACT file_exists(path="specs/user-authentication.txt").
+
+DO update_dal_spec(
+  file="specs/user-authentication.dal",
+  change="add scenario describing user logout"
+).
+
+EXPECT gwt_regenerated_from_dal(dal="specs/user-authentication.dal", gwt="specs/user-authentication.txt").
+EXPECT gwt_contains_concept(file="specs/user-authentication.txt", concept="user logout").
+EXPECT warning_shown(reason="gwt_is_generated_do_not_edit").
+
+
+SCENARIO bootstrap_gwt_to_draft_dal.
+
+FACT file_exists(path="specs/user-authentication.txt").
+FACT file_missing(path="specs/user-authentication.dal").
+
+DO derive_dal_from_gwt(gwt="specs/user-authentication.txt").
+
+EXPECT file_exists(path="specs/user-authentication.dal").
+EXPECT dal_marked_draft(file="specs/user-authentication.dal").
+EXPECT specs_equivalent(dal="specs/user-authentication.dal", gwt="specs/user-authentication.txt").
+
+
+SCENARIO spec_check_flags_service_and_repository_leakage_in_gwt.
+
+FACT gwt_contains_line(
+  file="specs/leaky-gwt.txt",
+  line="GIVEN the UserService has an empty userRepository."
+).
+
+DO run_spec_check(target="specs/leaky-gwt.txt").
+
+EXPECT spec_check_reports_violation(file="specs/leaky-gwt.txt", line_contains="UserService").
+EXPECT spec_check_suggests_rewrite(
+  bad_line_contains="UserService",
+  suggestion_contains="GIVEN no registered users."
+).
+
+
+SCENARIO spec_check_flags_endpoint_and_payload_leakage_in_gwt.
+
+FACT gwt_contains_line(
+  file="specs/leaky-gwt.txt",
+  line="WHEN a POST request is sent to /api/users with JSON body."
+).
+
+DO run_spec_check(target="specs/leaky-gwt.txt").
+
+EXPECT spec_check_reports_violation(file="specs/leaky-gwt.txt", line_contains="/api/users").
+EXPECT spec_check_suggests_rewrite(
+  bad_line_contains="/api/users",
+  suggestion_contains="WHEN a user registers with email \"bob@example.com\" and password \"secret123\"."
+).
+
+
+SCENARIO spec_check_flags_implementation_leakage_in_dal.
+
+FACT dal_contains_line(
+  file="specs/leaky-dal.dal",
+  line="FACT user_service_has_empty_repository."
+).
+
+DO run_spec_check(target="specs/leaky-dal.dal").
+
+EXPECT spec_check_reports_violation(file="specs/leaky-dal.dal", line_contains="user_service").
+EXPECT spec_check_suggests_rewrite(
+  bad_line_contains="user_service_has_empty_repository",
+  suggestion_contains="FACT no_registered_users."
+).
+
+
+SCENARIO dal_supports_scenario_composition_via_import.
+
+FACT dal_contains_scenario(file="specs/user-authentication.dal", scenario="user_can_register_with_email_and_password").
+FACT dal_contains_scenario(file="specs/user-authentication.dal", scenario="user_can_log_in_after_registration").
+FACT dal_scenario_imports(
+  file="specs/user-authentication.dal",
+  scenario="user_can_log_in_after_registration",
+  imported_scenario="user_can_register_with_email_and_password"
+).
+
+DO compile_specs(source="specs/user-authentication.dal").
+
+EXPECT compiled_ir_includes_imported_preconditions(
+  scenario="user_can_log_in_after_registration",
+  imported_scenario="user_can_register_with_email_and_password"
+).
+EXPECT compiled_ir_does_not_duplicate_steps(
+  scenario="user_can_log_in_after_registration",
+  duplicated_scenario="user_can_register_with_email_and_password"
+).
+
+
+SCENARIO pipeline_generation_creates_runnable_acceptance_tests_from_dal.
+
+FACT file_exists(path="specs/user-authentication.dal").
+FACT acceptance_pipeline_missing().
+
+DO generate_acceptance_test_pipeline(from="specs/user-authentication.dal").
+
+EXPECT acceptance_pipeline_exists().
+EXPECT runnable_acceptance_tests_generated().
+EXPECT running_acceptance_tests_fails_until_implemented().
+
+
+SCENARIO hooks_warn_when_writing_code_without_specs.
+
+FACT no_acceptance_spec_exists(concept="password reset").
+
+DO attempt_to_write_code(concept="password reset").
+
+EXPECT warning_shown(reason="write_acceptance_specs_first").
+
+
+SCENARIO stop_hook_reminds_to_verify_both_test_streams.
+
+FACT acceptance_tests_exist(concept="current feature").
+FACT unit_tests_exist(concept="current feature").
+
+DO stop_implementation_session(concept="current feature").
+
+EXPECT reminder_shown(message_contains="verify both acceptance tests and unit tests pass").
+
+
+SCENARIO atdd_team_workflow_creates_roles_and_phases.
+
+DO start_atdd_team_workflow(feature="User authentication with email and password").
+
+EXPECT role_exists(name="spec-writer").
+EXPECT role_exists(name="implementer").
+EXPECT role_exists(name="reviewer").
+EXPECT phases_announced(phases="spec writing, spec review, pipeline generation, implementation, post-implementation review").

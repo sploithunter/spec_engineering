@@ -1,0 +1,10 @@
+;===============================================================
+; Create specs.
+;===============================================================
+GIVEN the plugin "atdd" is installed.
+GIVEN the current project has a "specs/" directory.
+
+WHEN the user starts the ATDD workflow for "User authentication with email and password".
+
+THEN a DAL spec file exists at "specs/user-authentication.dal".
+THEN a GWT spec file exists at "specs/user-authentication.txt".
